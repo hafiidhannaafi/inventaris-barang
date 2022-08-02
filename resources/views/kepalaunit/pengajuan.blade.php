@@ -214,6 +214,7 @@
                                                         @if ($data->id == $a->pinjams_id)
                                                             @foreach ($status as $b)
                                                                 @if ($a->status_id == $b->id)
+                                                                    {{-- {{ $a->status_id }} --}}
                                                                     <?php $belumada_status = '<div class="badge bg-info btn-sm dropdown-toggle ' . $data->id . '" data-bs-toggle="modal" data-bs-target="#status' . $data->id . '"id="#status' . $data->id . '"> ' . $b->status . ' </div>'; ?>
                                                                 @endif
                                                             @endforeach
@@ -354,37 +355,43 @@
 
             <td>
                 <!--STATUS DISETUJUI-->
-                 @php
-                    $status = App\Models\trxstatus::where('id', $data->id)->first();
+                @php
+                    $statuss = App\Models\Trxstatus::where('pinjams_id', $data->id)
+                        ->orderBy('id', 'desc')
+                        ->first();
                 @endphp
-                <form action="/insertstatus" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <input type="hidden" name="pinjams_id" value={{ $data->id }}>
-                    <input type="hidden" name="users_id" value={{ Auth::user()->id }}>
-                    <button name="status_id" value="1" class="btn btn-success btn-sm"> <i
-                            class="bi bi-check-lg"></i></button>
-                </form>
-                <!--STATUS DI TOLAK -->
-                <form action="/insertstatus" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <input type="hidden" name="pinjams_id" value={{ $data->id }}>
-                    <input type="hidden" name="users_id" value={{ Auth::user()->id }}>
-                    <button name="status_id" value="2" class="btn btn-danger btn-sm"><i
-                            class="bi bi-check-x"></i></button>
-                </form>
-                 @else
-                    <span class="badge border-dark border-1 text-dark small fst-italic" style="color:#012970;"> sudah diverfi</span>
-                @endif
 
-                {{-- <a href="/status_setuju/{{ $data->kode_peminjaman }}" type="button"
+                @if (empty($statuss))
+                    <form action="/insertstatus" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <input type="hidden" name="pinjams_id" value={{ $data->id }}>
+                        <input type="hidden" name="users_id" value={{ Auth::user()->id }}>
+                        <button name="status_id" value="1" class="btn btn-success btn-sm"> <i
+                                class="bi bi-check-lg"></i></button>
+                    </form>
+                    <!--STATUS DI TOLAK -->
+                    <form action="/insertstatus" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <input type="hidden" name="pinjams_id" value={{ $data->id }}>
+                        <input type="hidden" name="users_id" value={{ Auth::user()->id }}>
+                        <button name="status_id" value="2" class="btn btn-danger btn-sm"><i
+                                class="bi bi-x"></i></button>
+                    </form>
+                    <span class="badge border-dark border-1 text-dark small fst-italic" style="color:#012970;">barang
+                        sedang dipinjam</span>
+                    {{-- @else
+                    <span class="badge border-dark border-1 text-dark small fst-italic" style="color:#012970;"> sudah diverfi</span>
+                @endif --}}
+
+                    {{-- <a href="/status_setuju/{{ $data->kode_peminjaman }}" type="button"
                                                         class="btn btn-success btn-sm"><i
                                                             class="bi bi-check-lg"></i></a> --}}
-                <!--STATUS DI TOLAK -->
-                {{-- <a href="/status_ditolak/{{ $data->kode_peminjaman }}"
+                    <!--STATUS DI TOLAK -->
+                    {{-- <a href="/status_ditolak/{{ $data->kode_peminjaman }}"
                                                         type="button" class="btn btn-danger btn-sm"><i
                                                             class="bi bi-x"></i></a> --}}
 
-                {{-- <span class="badge border-dark border-1 text-dark small fst-italic"
+                    {{-- <span class="badge border-dark border-1 text-dark small fst-italic"
                                                         style="color:#012970;">sudah
                                                         diverifikasi</span> --}}
             </td>

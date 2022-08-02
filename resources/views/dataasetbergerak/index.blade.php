@@ -43,6 +43,7 @@
                                     <th scope="col">Sisa Barang</th>
                                     <th scope="col">Kondisi</th>
                                     <th scope="col">Aksi</th>
+                                    <th scope="col">Riwayat</th>
                                 </tr>
                             </thead>
 
@@ -255,8 +256,6 @@
                                                                             </div>
                                                                         </div>
 
-
-
                                                                         </p>
 
                                                                     </div>
@@ -275,23 +274,101 @@
                     style="background-color: #05b3c3; color:#FFFFFF"><i class="bi bi-pencil"></i></a>
                 <a href="/data-asetbergerak/hapus/{{ $data->id }}" onclick="return confirm('Hapus Data?')"
                     type="button" class="btn btn-danger btn-sm"><i class="bi bi-trash delete"></i></a>
+
+
+
+
                 </td>
-                @endif
-                @endforeach
+                <td>
 
-                </tr>
+                    <!-- Large Modal -->
 
-                </tbody>
-                </table>
-                <!-- End Table with stripped rows -->
+                    <button type="button" class="btn btn-sm" style="background-color:  #012970; color:#FFFFFF"
+                        data-bs-toggle="modal" data-bs-target="#modalpinjam{{ $data->id }}">
+                        <i class="bi bi-info"></i>
+                    </button>
+                    @foreach ($pinjam as $item)
+                        @if ($item->barangs_id == $data->id)
+                            <div class="modal fade" id="modalpinjam{{ $item->barangs_id }}" tabindex="-1">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Detail Data Aset</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">Datatables</h5>
+                                                    {{-- <p>Add lightweight datatables to your project with using the <a
+                                                            href="https://github.com/fiduswriter/Simple-DataTables"
+                                                            target="_blank">Simple DataTables</a> library. Just add
+                                                        <code>.datatable</code> class name to any table you wish to
+                                                        conver to a
+                                                        datatable
+                                                    </p> --}}
 
+                                                    <!-- Table with stripped rows -->
+                                                    <table class="table datatable">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">#</th>
+                                                                <th scope="col">Name</th>
+                                                                <th scope="col">Position</th>
+                                                                <th scope="col">Age</th>
+                                                                <th scope="col">Start Date</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <th scope="row">1</th>
+                                                                <td>{{ $item->users->name }}</td>
+                                                                <td>{{ $item->tgl_pinjam }}</td>
+                                                                <td>28</td>
+                                                                <td>2016-05-25</td>
+                                                            </tr>
 
+                                                        </tbody>
+                                                    </table>
+                                                    <!-- End Table with stripped rows -->
 
+                                                </div>
+                                            </div>
 
-            </div>
-        </div>
-
-        </div>
-        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                    @endforeach
     </section>
+
+</main><!-- End #main -->
+
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><!-- End Large Modal-->
+@endif
+@endforeach
+
+</tr>
+</td>
+
+</tbody>
+</table>
+<!-- End Table with stripped rows -->
+
+
+
+
+</div>
+</div>
+
+</div>
+</div>
+</section>
 @endsection

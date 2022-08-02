@@ -386,9 +386,11 @@
                 <!--STATUS BARANG DIAMBIL-->
 
                 @php
-                    $status = App\Models\trxstatus::where('id', $data->id)->first();
+                    $statuss = App\Models\Trxstatus::where('pinjams_id', $data->id)
+                        ->orderBy('id', 'desc')
+                        ->first();
                 @endphp
-                @if ($status->status_id == 3)
+                @if ($statuss->status_id == 1 || $statuss->status_id == 2)
                     <form action="/insertstatus" method="POST" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="pinjams_id" value={{ $data->id }}>
@@ -400,9 +402,7 @@
                     <span class="badge border-dark border-1 text-dark small fst-italic" style="color:#012970;">barang
                         sedang dipinjam</span>
                 @endif
-
-
-                @if ($status->status_id == 4)
+                @if ($statuss->status_id == 1 || $statuss->status_id == 2 || $statuss->status_id == 3)
                     <!--STATUS DI KEMBALIKAN -->
                     <form action="/insertstatus" method="POST" enctype="multipart/form-data">
                         @csrf
@@ -413,7 +413,8 @@
                     </form>
                 @else
                     <span class="badge border-dark border-1 text-dark small fst-italic"
-                        style="color:#012970;">peminjaman selesai</span>
+                        style="color:#012970;">peminjaman
+                        selesai</span>
                 @endif
 
                 {{-- <a href="/status_setuju/{{ $data->kode_peminjaman }}" type="button"
