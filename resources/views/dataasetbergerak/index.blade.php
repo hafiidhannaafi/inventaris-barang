@@ -300,33 +300,32 @@
                                         <div class="modal-body">
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <h5 class="card-title">Datatables</h5>
-                                                    {{-- <p>Add lightweight datatables to your project with using the <a
-                                                            href="https://github.com/fiduswriter/Simple-DataTables"
-                                                            target="_blank">Simple DataTables</a> library. Just add
-                                                        <code>.datatable</code> class name to any table you wish to
-                                                        conver to a
-                                                        datatable
-                                                    </p> --}}
+                                                    <h5 class="card-title">Data Riwayat Peminjaman</h5>
 
                                                     <!-- Table with stripped rows -->
                                                     <table class="table datatable">
                                                         <thead>
                                                             <tr>
-                                                                <th scope="col">#</th>
-                                                                <th scope="col">Name</th>
-                                                                <th scope="col">Position</th>
-                                                                <th scope="col">Age</th>
-                                                                <th scope="col">Start Date</th>
+                                                                <th scope="col">No</th>
+                                                                <th scope="col">NamA Peminjaman</th>
+                                                                <th scope="col">jenis peminjaman</th>
+                                                                <th scope="col">Tanggal Pengajuan</th>
+                                                                <th scope="col">Tanggal Peminjaman</th>
+                                                                <th scope="col">Tanggal Kembali</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
+                                                            <?php
+                                                            $nomor = 1;
+                                                            ?>
                                                             <tr>
-                                                                <th scope="row">1</th>
+                                                                <th scope="row"></th>
+                                                                <td>{{ $nomor++ }}</td>
                                                                 <td>{{ $item->users->name }}</td>
+                                                                <td>{{ $item->users->jenis_peminjaman }}</td>
+                                                                <td>{{ $item->tgl_pengajuan }}</td>
                                                                 <td>{{ $item->tgl_pinjam }}</td>
-                                                                <td>28</td>
-                                                                <td>2016-05-25</td>
+                                                                <td>{{ $item->tgl_kembali }}</td>
                                                             </tr>
 
                                                         </tbody>

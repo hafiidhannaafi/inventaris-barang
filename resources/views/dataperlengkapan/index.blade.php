@@ -43,6 +43,7 @@
                                     <th scope="col">Jumlah Satuan</th>
                                     <th scope="col">Kondisi</th>
                                     <th scope="col">Aksi</th>
+                                    <th scope="col">Riwayat</th>
                                 </tr>
                             </thead>
 
@@ -282,19 +283,90 @@
                 <a href="/data-perlengkapan/hapus/{{ $data->id }}" onclick="return confirm('Hapus Data?')"
                     type="button" class="btn btn-danger btn-sm"><i class="bi bi-trash delete"></i></a>
                 </td>
-                @endif
-                @endforeach
+                <td>
+                    <!-- Large Modal -->
 
-                </tr>
+                    <button type="button" class="btn btn-sm" style="background-color:  #012970; color:#FFFFFF"
+                        data-bs-toggle="modal" data-bs-target="#modalpinjam{{ $data->id }}">
+                        <i class="bi bi-info"></i>
+                    </button>
+                    @foreach ($pinjam as $item)
+                        @if ($item->barangs_id == $data->id)
+                            <div class="modal fade" id="modalpinjam{{ $item->barangs_id }}" tabindex="-1">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Detail Data Aset</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">Data Riwayat Peminjaman</h5>
 
-                </tbody>
-                </table>
-                <!-- End Table with stripped rows -->
+                                                    <!-- Table with stripped rows -->
+                                                    <table class="table datatable">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">No</th>
+                                                                <th scope="col">Nama Peminjaman</th>
+                                                                <th scope="col">jenis peminjaman</th>
+                                                                <th scope="col">Tanggal Pengajuan</th>
+                                                                <th scope="col">Tanggal Peminjaman</th>
+                                                                <th scope="col">Tanggal Kembali</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <?php
+                                                            $nomor = 1;
+                                                            ?>
+                                                            <tr>
 
-            </div>
-        </div>
+                                                                <td>{{ $nomor++ }}</td>
+                                                                <td>{{ $item->users->name }}</td>
+                                                                <td>{{ $item->users->jenis_peminjaman }}</td>
+                                                                <td>{{ $item->tgl_pengajuan }}</td>
+                                                                <td>{{ $item->tgl_pinjam }}</td>
+                                                                <td>{{ $item->tgl_kembali }}</td>
+                                                            </tr>
 
-        </div>
-        </div>
+                                                        </tbody>
+                                                    </table>
+                                                    <!-- End Table with stripped rows -->
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                    @endforeach
     </section>
+
+</main><!-- End #main -->
+
+</div>
+<div class="modal-footer">
+</div>
+</div>
+</div>
+</div><!-- End Large Modal-->
+@endif
+@endforeach
+
+</tr>
+</td>
+</tbody>
+</table>
+<!-- End Table with stripped rows -->
+
+</div>
+</div>
+
+</div>
+</div>
+</section>
 @endsection

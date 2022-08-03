@@ -93,13 +93,15 @@ class BarangController extends Controller
         $jenisbarang = JenisBarang::all();
         $datasatuan = Satuan::all();
         $inputbarang = Barang::all();
+        $pinjam = Pinjam::all();
         return view('dataaset.index', [
             "title" => "asettidakbergerak",
             "jenisbarang" => $jenisbarang,
             "jenisaset" => $datajenisaset,
             "dataasalperolehan" => $dataasalperolehan,
             "datasatuan" => $datasatuan,
-            "inputbarang" => $inputbarang
+            "inputbarang" => $inputbarang,
+            "pinjam" => $pinjam
         ]);
     }
 
@@ -129,13 +131,16 @@ class BarangController extends Controller
         $jenisbarang = JenisBarang::all();
         $datasatuan = Satuan::all();
         $inputbarang = Barang::all();
+        $pinjam = Pinjam::all();
         return view('dataperalatan.index', [
             "title" => "peralatan",
             "jenisbarang" => $jenisbarang,
             "jenisaset" => $datajenisaset,
             "dataasalperolehan" => $dataasalperolehan,
             "datasatuan" => $datasatuan,
-            "inputbarang" => $inputbarang
+            "inputbarang" => $inputbarang,
+            "pinjam" => $pinjam
+
         ]);
     }
 
@@ -146,13 +151,15 @@ class BarangController extends Controller
         $jenisbarang = JenisBarang::all();
         $datasatuan = Satuan::all();
         $inputbarang = Barang::all();
+        $pinjam = Pinjam::all();
         return view('dataperlengkapan.index', [
             "title" => "perlengkapan",
             "jenisbarang" => $jenisbarang,
             "jenisaset" => $datajenisaset,
             "dataasalperolehan" => $dataasalperolehan,
             "datasatuan" => $datasatuan,
-            "inputbarang" => $inputbarang
+            "inputbarang" => $inputbarang,
+            "pinjam" => $pinjam
         ]);
     }
 

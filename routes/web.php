@@ -31,6 +31,8 @@ use App\Http\Controllers\AuthController;
 // });
 
 Route::POST('insertstatus', [PinjamController::class, "insertstatus"])->name('insertstatus');
+Route::GET('/mengembalikan/{id}', [PinjamController::class, "mengembalikan"]);
+
 
 //LANDING PAGES
 Route::get('/', function () {
@@ -358,8 +360,8 @@ Route::middleware(['auth', 'check.role:3'])->group(
 
         //RIWAYAT PEMINJAM staff
         Route::get('/staff/peminjaman', [PeminjamanController::class, 'peminjamanstaff']);
-        
-        Route::get('/staff/riwayat', [PinjamController::class, 'riwayatstaff']);//
+
+        Route::get('/staff/riwayat', [PinjamController::class, 'riwayatstaff']); //
         Route::get('/download/{surat_pinjam}', [PeminjamanController::class, 'download']);
         Route::get('/detailbarang/{id}', [PeminjamanController::class, 'detail_barang']);
         Route::get('/detailriwayat/{id}', [PeminjamanController::class, 'detail_riwayat']);

@@ -377,21 +377,20 @@
                         <button name="status_id" value="2" class="btn btn-danger btn-sm"><i
                                 class="bi bi-x"></i></button>
                     </form>
-                    <span class="badge border-dark border-1 text-dark small fst-italic" style="color:#012970;">barang
-                        sedang dipinjam</span>
-                    {{-- @else
-                    <span class="badge border-dark border-1 text-dark small fst-italic" style="color:#012970;"> sudah diverfi</span>
-                @endif --}}
+                @else
+                    <span class="badge border-dark border-1 text-dark small fst-italic" style="color:#012970;"> sudah
+                        diverifikasi</span>
+                @endif
 
-                    {{-- <a href="/status_setuju/{{ $data->kode_peminjaman }}" type="button"
+                {{-- <a href="/status_setuju/{{ $data->kode_peminjaman }}" type="button"
                                                         class="btn btn-success btn-sm"><i
                                                             class="bi bi-check-lg"></i></a> --}}
-                    <!--STATUS DI TOLAK -->
-                    {{-- <a href="/status_ditolak/{{ $data->kode_peminjaman }}"
+                <!--STATUS DI TOLAK -->
+                {{-- <a href="/status_ditolak/{{ $data->kode_peminjaman }}"
                                                         type="button" class="btn btn-danger btn-sm"><i
                                                             class="bi bi-x"></i></a> --}}
 
-                    {{-- <span class="badge border-dark border-1 text-dark small fst-italic"
+                {{-- <span class="badge border-dark border-1 text-dark small fst-italic"
                                                         style="color:#012970;">sudah
                                                         diverifikasi</span> --}}
             </td>

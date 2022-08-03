@@ -236,14 +236,14 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        @foreach ($pinjam as $data)
+                                        {{-- @foreach ($pinjam as $data)
                                             <form action="/insertstatus" method="POST" enctype="multipart/form-data">
                                                 @csrf
                                                 <input type="hidden" name="pinjams_id" value={{ $data->id }}>
                                                 <input type="hidden" name="users_id" value={{ Auth::user()->id }}>
                                                 <input type="hidden" name="status_id" value="1">
                                             </form>
-                                        @endforeach
+                                        @endforeach --}}
 
                                         <div class="card-footer">
                                             <button style=" float :right; background-color:   #012970; color:#FFFFFF"

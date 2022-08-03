@@ -404,11 +404,13 @@
                 @endif
                 @if ($statuss->status_id == 1 || $statuss->status_id == 2 || $statuss->status_id == 3)
                     <!--STATUS DI KEMBALIKAN -->
-                    <form action="/insertstatus" method="POST" enctype="multipart/form-data">
+                    <form action="/mengembalikan/{{ $data->id }}" method="GET" enctype="multipart/form-data">
                         @csrf
-                        <input type="hidden" name="pinjams_id" value={{ $data->id }}>
-                        <input type="hidden" name="users_id" value={{ Auth::user()->id }}>
-                        <button name="status_id" value="4" class="btn btn-info btn-sm"><i
+                        <input type="text" name="pinjams_id" value={{ $data->id }} hidden>
+                        <input type="text" name="users_id" value={{ Auth::user()->id }} hidden>
+                        {{-- <button style=" float :right; background-color:   #012970; color:#FFFFFF" type="submit"
+                            class="btn btn btn-sm">Submit</button> --}}
+                        <button type="submit" class="btn btn-info btn-sm"><i
                                 class="bi bi-person-check-fill"></i></button>
                     </form>
                 @else

@@ -179,11 +179,18 @@ class PinjamController extends Controller
             $pinjam->surat_pinjam = $request->file('surat_pinjam')->getClientOriginalName();
             $pinjam->save();
         }
-        return redirect()->back()->with('success', 'Pengajuan Peminjaman Sukses');
-        // $id =
-        //     $pinjam->kode_peminjaman;
-        // return redirect('peminjaman/konfirmasi/' . $id)->with('success', 'Data Berhasil Ditambahkan!');
+
+        $b = Barang::where('id', $request->barangs_id)->first();
+        if ($b->jumlah < $pinjam->jumlah_pinjam) {
+            return redirect()->back()->with('warning', 'Maaf jumlah barang yang anda pinjam melebihi dari sisa stok yang ada');
+        } else {
+            $b->jumlah -= (int)$pinjam->jumlah_pinjam;
+            $b->save();
+
+            return redirect()->back()->with('success', 'Pengajuan Peminjaman Sukses');
+        }
     }
+
 
     public function insertstatus(Request $request)
     {
@@ -192,6 +199,25 @@ class PinjamController extends Controller
         $trxstatus->users_id = $request->input('users_id');
         $trxstatus->status_id = $request->input('status_id');
         $trxstatus->save();
+
+        return redirect()->back()->with('success', 'Verifikasi status berhasil');
+    }
+    public function mengembalikan(Request $request, $id)
+    {
+        $pinjam = Pinjam::where('id', $id)->first();
+        $trxstatus = new TrxStatus;
+        $trxstatus->pinjams_id = $request->input('pinjams_id');
+        $trxstatus->users_id = $request->input('users_id');
+        $trxstatus->status_id = 4;
+        $trxstatus->save();
+
+        // $trxstatus = TrxStatus::where('pinjams_id', $pinjam->id)->orderby('created_at', 'desc')->first();
+        // $trxstatus->status_id = 4;
+        // $trxstatus->save();
+        $b = Barang::where('id', $pinjam->barangs_id)->first(); {
+            $b->jumlah += (int) $pinjam->jumlah_pinjam;
+            $b->save();
+        }
         return redirect()->back()->with('success', 'Verifikasi status berhasil');
     }
 }
