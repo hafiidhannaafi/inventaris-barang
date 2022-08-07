@@ -281,7 +281,7 @@
 
                     <!-- Large Modal -->
 
-                    <button type="button" class="btn btn-sm" style="background-color:  #012970; color:#FFFFFF"
+                    <button type="button" class="btn btn-sm" style="background-color:  #e6ad28; color:#FFFFFF"
                         data-bs-toggle="modal" data-bs-target="#modalpinjam{{ $data->id }}">
                         <i class="bi bi-info"></i>
                     </button>
@@ -291,7 +291,7 @@
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title">Detail Data Aset</h5>
+                                            <h5 class="modal-title"></h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>

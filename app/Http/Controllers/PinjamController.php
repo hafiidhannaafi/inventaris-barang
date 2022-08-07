@@ -55,7 +55,7 @@ class PinjamController extends Controller
         $datasatuan = Satuan::all();
         $inputbarang = Barang::all();
         $akun = User::all();
-        $pinjam = Pinjam::all();
+        $pinjam = Pinjam::latest()->get();
         $status = Status::all();
         $trxstatus = TrxStatus::all();
         return view('staff.pinjam', [
@@ -81,7 +81,7 @@ class PinjamController extends Controller
         $datasatuan = Satuan::all();
         $inputbarang = Barang::all();
         $akun = User::all();
-        $pinjam = Pinjam::all();
+        $pinjam = Pinjam::latest()->get();
         $status = Status::all();
         $trxstatus = TrxStatus::all();
         return view('staff.riwayat', [
@@ -107,10 +107,36 @@ class PinjamController extends Controller
         $datasatuan = Satuan::all();
         $inputbarang = Barang::all();
         $akun = User::all();
-        $pinjam = Pinjam::all();
+        $pinjam = Pinjam::latest()->get();
         $status = Status::all();
         $trxstatus = TrxStatus::all();
         return view('kepalaunit.pengajuan', [
+            "title" => "pengajuan",
+            "jenisbarang" => $jenisbarang,
+            "jenisaset" => $datajenisaset,
+            "dataasalperolehan" => $dataasalperolehan,
+            "datasatuan" => $datasatuan,
+            "inputbarang" => $inputbarang,
+            "status" => $status,
+            "pinjam" => $pinjam,
+            "akun" => $akun,
+            "trxstatus" => $trxstatus
+
+        ]);
+    }
+
+    public function riwayatkepala()
+    {
+        $dataasalperolehan = DataAsalPerolehan::all();
+        $datajenisaset = DataJenisAset::all();
+        $jenisbarang = JenisBarang::all();
+        $datasatuan = Satuan::all();
+        $inputbarang = Barang::all();
+        $akun = User::all();
+        $pinjam = Pinjam::latest()->get();
+        $status = Status::all();
+        $trxstatus = TrxStatus::all();
+        return view('kepalaunit.riwayat', [
             "title" => "pengajuan",
             "jenisbarang" => $jenisbarang,
             "jenisaset" => $datajenisaset,
@@ -133,10 +159,36 @@ class PinjamController extends Controller
         $datasatuan = Satuan::all();
         $inputbarang = Barang::all();
         $akun = User::all();
-        $pinjam = Pinjam::all();
+        $pinjam = Pinjam::latest()->get();
         $status = Status::all();
         $trxstatus = TrxStatus::all();
         return view('peminjaman.peminjaman', [
+            "title" => "pengajuan",
+            "jenisbarang" => $jenisbarang,
+            "jenisaset" => $datajenisaset,
+            "dataasalperolehan" => $dataasalperolehan,
+            "datasatuan" => $datasatuan,
+            "inputbarang" => $inputbarang,
+            "status" => $status,
+            "pinjam" => $pinjam,
+            "akun" => $akun,
+            "trxstatus" => $trxstatus
+
+        ]);
+    }
+
+    public function riwayatadmin()
+    {
+        $dataasalperolehan = DataAsalPerolehan::all();
+        $datajenisaset = DataJenisAset::all();
+        $jenisbarang = JenisBarang::all();
+        $datasatuan = Satuan::all();
+        $inputbarang = Barang::all();
+        $akun = User::all();
+        $pinjam = Pinjam::latest()->get();
+        $status = Status::all();
+        $trxstatus = TrxStatus::all();
+        return view('peminjaman.riwayatpinjam', [
             "title" => "pengajuan",
             "jenisbarang" => $jenisbarang,
             "jenisaset" => $datajenisaset,
@@ -184,8 +236,8 @@ class PinjamController extends Controller
         if ($b->jumlah < $pinjam->jumlah_pinjam) {
             return redirect()->back()->with('warning', 'Maaf jumlah barang yang anda pinjam melebihi dari sisa stok yang ada');
         } else {
-            $b->jumlah -= (int)$pinjam->jumlah_pinjam;
-            $b->save();
+            // $b->jumlah -= (int)$pinjam->jumlah_pinjam;
+            // $b->save();
 
             return redirect()->back()->with('success', 'Pengajuan Peminjaman Sukses');
         }
@@ -198,10 +250,12 @@ class PinjamController extends Controller
         $trxstatus->pinjams_id = $request->input('pinjams_id');
         $trxstatus->users_id = $request->input('users_id');
         $trxstatus->status_id = $request->input('status_id');
+        $trxstatus->ket = $request->input('ket');
         $trxstatus->save();
 
         return redirect()->back()->with('success', 'Verifikasi status berhasil');
     }
+
     public function mengembalikan(Request $request, $id)
     {
         $pinjam = Pinjam::where('id', $id)->first();

@@ -283,7 +283,7 @@
 
                     <!-- Large Modal -->
 
-                    <button type="button" class="btn btn-sm" style="background-color:  #012970; color:#FFFFFF"
+                    <button type="button" class="btn btn-sm" style="background-color:  #e6ad28; color:#FFFFFF"
                         data-bs-toggle="modal" data-bs-target="#modalpinjam{{ $data->id }}">
                         <i class="bi bi-info"></i>
                     </button>
@@ -293,7 +293,7 @@
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title">Detail Data Aset</h5>
+                                            <h5 class="modal-title"></h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
@@ -307,7 +307,7 @@
                                                         <thead>
                                                             <tr>
                                                                 <th scope="col">No</th>
-                                                                <th scope="col">NamA Peminjaman</th>
+                                                                <th scope="col">Nama Peminjaman</th>
                                                                 <th scope="col">jenis peminjaman</th>
                                                                 <th scope="col">Tanggal Pengajuan</th>
                                                                 <th scope="col">Tanggal Peminjaman</th>
@@ -322,7 +322,7 @@
                                                                 <th scope="row"></th>
                                                                 <td>{{ $nomor++ }}</td>
                                                                 <td>{{ $item->users->name }}</td>
-                                                                <td>{{ $item->users->jenis_peminjaman }}</td>
+                                                                <td>{{ $item->jenis_peminjaman }}</td>
                                                                 <td>{{ $item->tgl_pengajuan }}</td>
                                                                 <td>{{ $item->tgl_pinjam }}</td>
                                                                 <td>{{ $item->tgl_kembali }}</td>

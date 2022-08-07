@@ -27,8 +27,8 @@
                     <div class="card-body">
 
                         <center>
-                            <h5 style="align-content: center" class="card-title">Proses Peminjaman
-                                {{ auth()->user()->name }}
+                            <h5 style="align-content: center" class="card-title">Data Peminjaman
+
                             </h5>
                             <center>
 
@@ -46,9 +46,8 @@
                                             {{-- <th scope="col">Tujuan</th>
                                             <th scope="col">barang pinjam</th>
                                             <th scope="col">jumlah pinjam </th> --}}
-                                            <th scope="col">detail</th>
-                                            <th scope="col">status</th>
-
+                                            <th scope="col">Detail</th>
+                                            <th scope="col">Status</th>
 
 
                                         </tr>
@@ -63,10 +62,38 @@
                                                 <td>{{ $nomor++ }}</td>
                                                 <td> {{ $data->kode_peminjaman }}</td>
                                                 <td> {{ $data->nama_peminjam }}</td>
-                                                {{-- <td> {{ $data->jenis_peminjaman }}</td> --}}
                                                 <td> <?php echo date('d F Y', strtotime($data->tgl_pengajuan)); ?> </td>
                                                 <td> <?php echo date('d F Y', strtotime($data->tgl_pinjam)); ?> </td>
-                                                <td> <?php echo date('d F Y', strtotime($data->tgl_kembali)); ?></td>
+                                                <td>
+
+                                                    <?php
+                                                    $d = Carbon\Carbon::parse($data->tgl_kembali);
+                                                    $e = Carbon\Carbon::parse(now());
+                                                    if ($d >= $e) {
+                                                        $waktu = $d->diffInDays($e) + 1;
+                                                    } else {
+                                                        $waktu = -$d->diffInDays($e);
+                                                    } ?>
+
+
+                                                    {{ date('d F Y', strtotime($data->tgl_kembali)) }}
+
+
+                                                    @if ($waktu < 0)
+                                                        <p style="color:#cd0b30;" class="small fst-italic">Sudah
+                                                            Terlewat {{ -$waktu }}
+                                                            hari</p>
+                                                    @elseif($waktu > 0)
+                                                        <p style="color:#012970;" class="small fst-italic"><b>
+                                                                {{ $waktu }} Hari Lagi </b>
+                                                        </p>
+                                                    @else
+                                                        <p style="color:#012970;" class="small fst-italic"><b>Hari
+                                                                Terakhir</b></p>
+                                                    @endif
+
+
+                                                </td>
                                                 {{-- <td>{{ $data->tujuan }} </td>
                                                 <td>{{ $data->barangs->kode }}
                                                     {{ $data->barangs->jenis_barangs->jenis_barang }}
@@ -177,7 +204,8 @@
                                                                                         <div class="col-lg-7 col-md-8">
                                                                                             :
                                                                                             {{ $data->barangs->kode }}
-                                                                                            {{ $data->barangs->jenis_barangs->jenis_barang }}{{ $data->barangs->spesifikasi }}
+                                                                                            {{ $data->barangs->jenis_barangs->jenis_barang }}
+                                                                                            {{ $data->barangs->spesifikasi }}
                                                                                         </div>
                                                                                     </div>
 
@@ -208,13 +236,20 @@
 
                                                 </td>
 
+
                                                 <td>
                                                     <?php $belumada_status = '<div class="badge bg-secondary btn-sm"></i> pengajuan</div>'; ?>
                                                     @foreach ($trxstatus as $a)
                                                         @if ($data->id == $a->pinjams_id)
                                                             @foreach ($status as $b)
-                                                                @if ($a->status_id == $b->id)
+                                                                @if ($a->status_id == $b->id && $b->id == 4)
                                                                     <?php $belumada_status = '<div class="badge bg-info btn-sm dropdown-toggle ' . $data->id . '" data-bs-toggle="modal" data-bs-target="#status' . $data->id . '"id="#status' . $data->id . '"> ' . $b->status . ' </div>'; ?>
+                                                                @elseif($a->status_id == $b->id && $b->id == 2)
+                                                                    <?php $belumada_status = '<div class="badge bg-danger btn-sm dropdown-toggle ' . $data->id . '" data-bs-toggle="modal" data-bs-target="#status' . $data->id . '"id="#status' . $data->id . '"> ' . $b->status . ' </div>'; ?>
+                                                                @elseif($a->status_id == $b->id && $b->id == 3)
+                                                                    <?php $belumada_status = '<div class="badge bg-warning btn-sm dropdown-toggle ' . $data->id . '" data-bs-toggle="modal" data-bs-target="#status' . $data->id . '"id="#status' . $data->id . '"> ' . $b->status . ' </div>'; ?>
+                                                                @elseif($a->status_id == $b->id && $b->id == 1)
+                                                                    <?php $belumada_status = '<div class="badge bg-success btn-sm dropdown-toggle ' . $data->id . '" data-bs-toggle="modal" data-bs-target="#status' . $data->id . '"id="#status' . $data->id . '"> ' . $b->status . ' </div>'; ?>
                                                                 @endif
                                                             @endforeach
                                                         @endif
@@ -251,8 +286,56 @@
                                                                                         <span>|
                                                                                             {{ Auth::user()->name }}</span>
                                                                                     </h5>
+                                                                                    <div
+                                                                                        class="iq-timeline0 m-0 d-flex align-items-center justify-content-between position-relative">
+                                                                                        <ul
+                                                                                            class="list-inline p-0 m-0">
+                                                                                            @foreach ($trxstatus as $a)
+                                                                                                @if ($data->id == $a->pinjams_id)
+                                                                                                    <li>
+                                                                                                        <div
+                                                                                                            class="timeline-dots timeline-dot1 border-success text-primary">
+                                                                                                        </div>
+                                                                                                        @foreach ($status as $item)
+                                                                                                            @if ($a->status_id == $item->id)
+                                                                                                                <h6
+                                                                                                                    class="float-left mb-1">
+                                                                                                                    {{ $item->status }}
+                                                                                                                </h6>
+                                                                                                            @endif
+                                                                                                        @endforeach
 
-                                                                                    <div class="activity">
+                                                                                                        <?php
+                                                                                                            foreach($akun as $p){
+                                                                                                                if($a->users_id == $p->id){?>
+                                                                                                        <div
+                                                                                                            class="d-inline-block w-100">
+                                                                                                            <p>
+                                                                                                                Diverifikasi
+                                                                                                                oleh
+                                                                                                                :
+                                                                                                                {{ $p->name }}<br>
+                                                                                                                Pada
+                                                                                                                Tanggal
+                                                                                                                :
+                                                                                                                <?php echo date('d F Y', strtotime($a->created_at)); ?>
+                                                                                                            </p>
+                                                                                                        </div>
+                                                                                                        <?php }
+                                                                                                                        }
+                                                                                                                        ?>
+
+                                                                                                    </li>
+                                                                                                @endif
+                                                                                            @endforeach
+                                                                                        </ul>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                {{-- <div class="activity">
                                                                                         @foreach ($trxstatus as $a)
                                                                                             @if ($data->id == $a->pinjams_id)
                                                                                                 <div
@@ -291,66 +374,27 @@
                                                                                         @endforeach
                                                                                     </div>
 
-                                                                                </div>
-                                                                                <!-- End activity item-->
+                                                                                </div> --}}
+                                                                <!-- End activity item-->
 
-                                                                            </div>
-
-                                                                        </div>
-                                                                    </div>
-                                                                    <!-- End Recent Activity -->
-                                                                    {{-- <div
-                                                                class="iq-timeline0 m-0 d-flex align-items-center justify-content-between position-relative">
-                                                                <ul class="list-inline p-0 m-0">
-                                                                    @foreach ($trxstatus as $a)
-                                                                        @if ($data->id == $a->pinjams_id)
-                                                                            <li>
-                                                                                <div
-                                                                                    class="timeline-dots timeline-dot1 border-primary text-primary">
-                                                                                </div>
-                                                                                @foreach ($status as $item)
-                                                                                    @if ($a->status_id == $item->id)
-                                                                                        <h6 class="float-left mb-1">
-                                                                                            {{ $item->status }}
-                                                                                        </h6>
-                                                                                    @endif
-                                                                                @endforeach
-
-                                                                                <?php
-                                                                                                            foreach($akun as $p){
-                                                                                                                if($a->users_id == $p->id){?>
-                                                                                <div class="d-inline-block w-100">
-                                                                                    <p>
-                                                                                        Created
-                                                                                        by
-                                                                                        {{ $p->name }}<br>
-                                                                                        {{ $a->created_at }}
-                                                                                    </p>
-                                                                                </div>
-                                                                                <?php }
-                                                                                                                        }
-                                                                                                                        ?>
-
-                                                                            </li>
-                                                                        @endif
-                                                                    @endforeach
-                                                                </ul>
-                                                            </div> --}}
-                                                                </div>
                                                             </div>
+
                                                         </div>
                                                     </div>
+                                                    <!-- End Recent Activity -->
+
                     </div>
                 </div>
             </div>
-        </div>
 
-        </td>
+            </td>
 
-        </tr>
-        @endforeach
-        </tbody>
-        </table>
+
+
+            </tr>
+            @endforeach
+            </tbody>
+            </table>
         </div>
         </div>
         </div>
@@ -358,5 +402,7 @@
 
         </div>
         </div>
+
+
 
     @endsection

@@ -157,9 +157,6 @@ Route::middleware(['auth', 'check.role:1'])->group(
             return view('datakepala.index');
         });
 
-
-
-
         //DATA AKUN USER
         Route::get('/data-user', [UserController::class, 'index']); //menampilkan data user
         Route::POST('/data-user', 'App\Http\Controllers\UserController@create')->name('data-user');
@@ -273,7 +270,7 @@ Route::middleware(['auth', 'check.role:1'])->group(
 
         //RIWAYAT PEMINJAM ADMIN
         Route::get('/peminjaman/peminjaman', [PinjamController::class, 'peminjaman']);
-        Route::get('/peminjaman/riwayat', [PeminjamanController::class, 'riwayatadmin']);
+        Route::get('/peminjaman/riwayatpinjam', [PinjamController::class, 'riwayatadmin']); //
         Route::get('/detailbarangadmin/{id}', [PeminjamanController::class, 'detail_barang_admin']);
         Route::get('/detailriwayatadmin/{id}', [PeminjamanController::class, 'detail_riwayat_admin']);
         Route::get('/peminjaman/pengembalian', [PeminjamanController::class, 'pengembalianadmin']);
@@ -297,6 +294,7 @@ Route::middleware(['auth', 'check.role:2'])->group(
         //RIWAYAT PEMINJAM kepala unit
         Route::get('/kepalaunit/pengajuan', [PinjamController::class, 'pengajuan']);
         Route::get('/detailpengajuan/{id}', [PeminjamanController::class, 'detail_pengajuan']);
+        Route::get('/kepalaunit/riwayat', [PinjamController::class, 'riwayatkepala']); //
 
 
         //PENCATATAN STOK/BARANG KELUAR kepala unit
@@ -360,7 +358,6 @@ Route::middleware(['auth', 'check.role:3'])->group(
 
         //RIWAYAT PEMINJAM staff
         Route::get('/staff/peminjaman', [PeminjamanController::class, 'peminjamanstaff']);
-
         Route::get('/staff/riwayat', [PinjamController::class, 'riwayatstaff']); //
         Route::get('/download/{surat_pinjam}', [PeminjamanController::class, 'download']);
         Route::get('/detailbarang/{id}', [PeminjamanController::class, 'detail_barang']);

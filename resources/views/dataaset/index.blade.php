@@ -256,40 +256,17 @@
                                                                 </div>
                                                             </div>
                                                         </div><!-- End Card with an image on left -->
-
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                    </div>
-                                                </div>
-                    </div>
-                </div><!-- End Large Modal-->
-
-                <a href="/data-aset/edit/{{ $data->id }}" type="button" class="btn btn-sm"
-                    style="background-color: #05b3c3; color:#FFFFFF"><i class="bi bi-pencil"></i></a>
-                <a href="/data-aset/hapusdataaset/{{ $data->id }}" onclick="return confirm('Hapus Data?')"
-                    type="button" class="btn btn-danger btn-sm"><i class="bi bi-trash delete"></i></a>
-                </td>
-
-
-                <td>
-
-                    <!-- Large Modal -->
-
-                    <button type="button" class="btn btn-sm" style="background-color:  #012970; color:#FFFFFF"
-                        data-bs-toggle="modal" data-bs-target="#modalpinjam{{ $data->id }}">
-                        <i class="bi bi-info"></i>
-                    </button>
-                    @foreach ($pinjam as $item)
+  @foreach ($pinjam as $item)
                         @if ($item->barangs_id == $data->id)
-                            <div class="modal fade" id="modalpinjam{{ $item->barangs_id }}" tabindex="-1">
+                            {{-- <div class="modal fade" id="modalpinjam{{ $item->barangs_id }}" tabindex="-1">
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title">Detail Data Aset</h5>
+                                            <h5 class="modal-title"></h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
-                                        <div class="modal-body">
+                                        <div class="modal-body"> --}}
                                             <div class="card">
                                                 <div class="card-body">
                                                     <h5 class="card-title">Data Riwayat Peminjaman</h5>
@@ -314,7 +291,84 @@
 
                                                                 <td>{{ $nomor++ }}</td>
                                                                 <td>{{ $item->users->name }}</td>
-                                                                <td>{{ $item->users->jenis_peminjaman }}</td>
+                                                                <td>{{ $item->jenis_peminjaman }}</td>
+                                                                <td>{{ $item->tgl_pengajuan }}</td>
+                                                                <td>{{ $item->tgl_pinjam }}</td>
+                                                                <td>{{ $item->tgl_kembali }}</td>
+                                                            </tr>
+
+                                                        </tbody>
+                                                    </table>
+                                                    <!-- End Table with stripped rows -->
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                    @endforeach
+    </section>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                    </div>
+                                                </div>
+                    </div>
+                </div><!-- End Large Modal-->
+
+                <a href="/data-aset/edit/{{ $data->id }}" type="button" class="btn btn-sm"
+                    style="background-color: #05b3c3; color:#FFFFFF"><i class="bi bi-pencil"></i></a>
+                <a href="/data-aset/hapusdataaset/{{ $data->id }}" onclick="return confirm('Hapus Data?')"
+                    type="button" class="btn btn-danger btn-sm"><i class="bi bi-trash delete"></i></a>
+                </td>
+
+
+                <td>
+
+                    <!-- Large Modal -->
+
+                    <button type="button" class="btn btn-sm" style="background-color:  #e6ad28; color:#FFFFFF"
+                        data-bs-toggle="modal" data-bs-target="#modalpinjam{{ $data->id }}">
+                        <i class="bi bi-info"></i>
+                    </button>
+                    @foreach ($pinjam as $item)
+                        @if ($item->barangs_id == $data->id)
+                            {{-- <div class="modal fade" id="modalpinjam{{ $item->barangs_id }}" tabindex="-1">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body"> --}}
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">Data Riwayat Peminjaman</h5>
+
+                                                    <!-- Table with stripped rows -->
+                                                    <table class="table datatable">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">No</th>
+                                                                <th scope="col">Nama Peminjaman</th>
+                                                                <th scope="col">jenis peminjaman</th>
+                                                                <th scope="col">Tanggal Pengajuan</th>
+                                                                <th scope="col">Tanggal Peminjaman</th>
+                                                                <th scope="col">Tanggal Kembali</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <?php
+                                                            $nomor = 1;
+                                                            ?>
+                                                            <tr>
+
+                                                                <td>{{ $nomor++ }}</td>
+                                                                <td>{{ $item->users->name }}</td>
+                                                                <td>{{ $item->jenis_peminjaman }}</td>
                                                                 <td>{{ $item->tgl_pengajuan }}</td>
                                                                 <td>{{ $item->tgl_pinjam }}</td>
                                                                 <td>{{ $item->tgl_kembali }}</td>

@@ -189,8 +189,14 @@
                          </a>
                      </li> --}}
 
-                     <li>
+                     {{-- <li>
                          <a class="@yield('riwayat')" href="{{ url('/peminjaman/riwayat') }}">
+                             <i class="bi bi-circle"></i><span>Riwayat Peminjaman</span>
+                         </a>
+                     </li> --}}
+
+                     <li>
+                         <a class="@yield('riwayat')" href="{{ url('/peminjaman/riwayatpinjam') }}">
                              <i class="bi bi-circle"></i><span>Riwayat Peminjaman</span>
                          </a>
                      </li>
@@ -238,6 +244,13 @@
                  <a class="nav-link collapsed" href="{{ url('/kepalaunit/pengajuan') }}">
                      <i class="bi bi-menu-button-wide"></i>
                      <span>Data Pengajuan</span>
+                 </a>
+             </li>
+
+             <li class="nav-item ">
+                 <a class="nav-link collapsed" href="{{ url('/kepalaunit/riwayat') }}">
+                     <i class="bi bi-menu-button-wide"></i>
+                     <span>Data Peminjaman</span>
                  </a>
              </li>
 

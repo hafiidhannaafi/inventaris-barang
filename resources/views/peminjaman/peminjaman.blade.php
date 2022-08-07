@@ -390,34 +390,33 @@
                         ->orderBy('id', 'desc')
                         ->first();
                 @endphp
-                @if ($statuss->status_id == 1 || $statuss->status_id == 2)
-                    <form action="/insertstatus" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <input type="hidden" name="pinjams_id" value={{ $data->id }}>
-                        <input type="hidden" name="users_id" value={{ Auth::user()->id }}>
-                        <button name="status_id" value="3" class="btn btn-warning btn-sm"> <i
-                                class="bi bi-cart-check-fill"></i></button>
-                    </form>
-                @else
-                    <span class="badge border-dark border-1 text-dark small fst-italic" style="color:#012970;">barang
-                        sedang dipinjam</span>
-                @endif
-                @if ($statuss->status_id == 1 || $statuss->status_id == 2 || $statuss->status_id == 3)
-                    <!--STATUS DI KEMBALIKAN -->
-                    <form action="/mengembalikan/{{ $data->id }}" method="GET" enctype="multipart/form-data">
-                        @csrf
-                        <input type="text" name="pinjams_id" value={{ $data->id }} hidden>
-                        <input type="text" name="users_id" value={{ Auth::user()->id }} hidden>
-                        {{-- <button style=" float :right; background-color:   #012970; color:#FFFFFF" type="submit"
+
+                <form action="/insertstatus" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <input type="hidden" name="pinjams_id" value={{ $data->id }}>
+                    <input type="hidden" name="users_id" value={{ Auth::user()->id }}>
+                    <button name="status_id" value="3" class="btn btn-warning btn-sm"> <i
+                            class="bi bi-cart-check-fill"></i></button>
+                </form>
+
+                <span class="badge border-dark border-1 text-dark small fst-italic" style="color:#012970;">barang
+                    sedang dipinjam</span>
+
+
+                <!--STATUS DI KEMBALIKAN -->
+                <form action="/mengembalikan/{{ $data->id }}" method="GET" enctype="multipart/form-data">
+                    @csrf
+                    <input type="text" name="pinjams_id" value={{ $data->id }} hidden>
+                    <input type="text" name="users_id" value={{ Auth::user()->id }} hidden>
+                    {{-- <button style=" float :right; background-color:   #012970; color:#FFFFFF" type="submit"
                             class="btn btn btn-sm">Submit</button> --}}
-                        <button type="submit" class="btn btn-info btn-sm"><i
-                                class="bi bi-person-check-fill"></i></button>
-                    </form>
-                @else
-                    <span class="badge border-dark border-1 text-dark small fst-italic"
-                        style="color:#012970;">peminjaman
-                        selesai</span>
-                @endif
+                    <button type="submit" class="btn btn-info btn-sm"><i
+                            class="bi bi-person-check-fill"></i></button>
+                </form>
+
+                <span class="badge border-dark border-1 text-dark small fst-italic" style="color:#012970;">peminjaman
+                    selesai</span>
+
 
                 {{-- <a href="/status_setuju/{{ $data->kode_peminjaman }}" type="button"
                                                         class="btn btn-success btn-sm"><i

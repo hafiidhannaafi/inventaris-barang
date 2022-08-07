@@ -64,7 +64,36 @@
                                                 <td> {{ $data->nama_peminjam }}</td>
                                                 <td> <?php echo date('d F Y', strtotime($data->tgl_pengajuan)); ?> </td>
                                                 <td> <?php echo date('d F Y', strtotime($data->tgl_pinjam)); ?> </td>
-                                                <td> <?php echo date('d F Y', strtotime($data->tgl_kembali)); ?></td>
+                                                <td>
+
+                                                    <?php
+                                                    $d = Carbon\Carbon::parse($data->tgl_kembali);
+                                                    $e = Carbon\Carbon::parse(now());
+                                                    if ($d >= $e) {
+                                                        $waktu = $d->diffInDays($e) + 1;
+                                                    } else {
+                                                        $waktu = -$d->diffInDays($e);
+                                                    } ?>
+
+
+                                                    {{ date('d F Y', strtotime($data->tgl_kembali)) }}
+
+
+                                                    @if ($waktu < 0)
+                                                        <p style="color:#cd0b30;" class="small fst-italic">Sudah
+                                                            Terlewat {{ -$waktu }}
+                                                            hari</p>
+                                                    @elseif($waktu > 0)
+                                                        <p style="color:#012970;" class="small fst-italic"><b>
+                                                                {{ $waktu }} Hari Lagi </b>
+                                                        </p>
+                                                    @else
+                                                        <p style="color:#012970;" class="small fst-italic"><b>Hari
+                                                                Terakhir</b></p>
+                                                    @endif
+
+
+                                                </td>
                                                 {{-- <td>{{ $data->tujuan }} </td>
                                                 <td>{{ $data->barangs->kode }}
                                                     {{ $data->barangs->jenis_barangs->jenis_barang }}
@@ -213,9 +242,14 @@
                                                     @foreach ($trxstatus as $a)
                                                         @if ($data->id == $a->pinjams_id)
                                                             @foreach ($status as $b)
-                                                                @if ($a->status_id == $b->id)
-                                                                    {{-- {{ $a->status_id }} --}}
+                                                                @if ($a->status_id == $b->id && $b->id == 4)
                                                                     <?php $belumada_status = '<div class="badge bg-info btn-sm dropdown-toggle ' . $data->id . '" data-bs-toggle="modal" data-bs-target="#status' . $data->id . '"id="#status' . $data->id . '"> ' . $b->status . ' </div>'; ?>
+                                                                @elseif($a->status_id == $b->id && $b->id == 2)
+                                                                    <?php $belumada_status = '<div class="badge bg-danger btn-sm dropdown-toggle ' . $data->id . '" data-bs-toggle="modal" data-bs-target="#status' . $data->id . '"id="#status' . $data->id . '"> ' . $b->status . ' </div>'; ?>
+                                                                @elseif($a->status_id == $b->id && $b->id == 3)
+                                                                    <?php $belumada_status = '<div class="badge bg-warning btn-sm dropdown-toggle ' . $data->id . '" data-bs-toggle="modal" data-bs-target="#status' . $data->id . '"id="#status' . $data->id . '"> ' . $b->status . ' </div>'; ?>
+                                                                @elseif($a->status_id == $b->id && $b->id == 1)
+                                                                    <?php $belumada_status = '<div class="badge bg-success btn-sm dropdown-toggle ' . $data->id . '" data-bs-toggle="modal" data-bs-target="#status' . $data->id . '"id="#status' . $data->id . '"> ' . $b->status . ' </div>'; ?>
                                                                 @endif
                                                             @endforeach
                                                         @endif
@@ -254,7 +288,8 @@
                                                                                     </h5>
                                                                                     <div
                                                                                         class="iq-timeline0 m-0 d-flex align-items-center justify-content-between position-relative">
-                                                                                        <ul class="list-inline p-0 m-0">
+                                                                                        <ul
+                                                                                            class="list-inline p-0 m-0">
                                                                                             @foreach ($trxstatus as $a)
                                                                                                 @if ($data->id == $a->pinjams_id)
                                                                                                     <li>
@@ -277,12 +312,17 @@
                                                                                                             class="d-inline-block w-100">
                                                                                                             <p>
                                                                                                                 Diverifikasi
-                                                                                                                oleh :
+                                                                                                                oleh
+                                                                                                                :
                                                                                                                 {{ $p->name }}<br>
                                                                                                                 Pada
                                                                                                                 Tanggal
                                                                                                                 :
                                                                                                                 <?php echo date('d F Y', strtotime($a->created_at)); ?>
+                                                                                                                <br>
+                                                                                                                ket
+                                                                                                                :
+                                                                                                                {{ $a->ket }}
                                                                                                             </p>
                                                                                                         </div>
                                                                                                         <?php }
@@ -370,29 +410,66 @@
                                 class="bi bi-check-lg"></i></button>
                     </form>
                     <!--STATUS DI TOLAK -->
-                    <form action="/insertstatus" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <input type="hidden" name="pinjams_id" value={{ $data->id }}>
-                        <input type="hidden" name="users_id" value={{ Auth::user()->id }}>
-                        <button name="status_id" value="2" class="btn btn-danger btn-sm"><i
-                                class="bi bi-x"></i></button>
-                    </form>
+
+                    <!-- Basic Modal -->
+
+
+                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                        data-bs-target="#statustolak{{ $data->id }}">
+                        <i class="bi bi-x"></i>
+                    </button>
+
+                    <div class="modal fade" id="statustolak{{ $data->id }}" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    {{-- <h5 class="modal-title">Keterangan</h5> --}}
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="/insertstatus" method="POST" enctype="multipart/form-data">
+                                        @csrf
+                                        <input type="hidden" name="pinjams_id" value={{ $data->id }}>
+                                        <input type="hidden" name="users_id" value={{ Auth::user()->id }}>
+                                        <input type="hidden" name="status_id" value="2">
+                                        <div class="row mb-3">
+                                            {{-- <h1 class="card-title text-center pb-0 fs-5">Formulir Peminjaman Barang
+                                            </h1></br> --}}
+                                            <div class="col-sm-10">
+                                                <input type="text" id="validationTooltip03" name="ket"
+                                                    class="form-control"
+                                                    placeholder="isikan keterangan penolakan peminjaman">
+                                                <div class="invalid-feedback">
+                                                    Harus di isi
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Close</button>
+                                                <button type="submit" value="" class="btn btn-primary">Save
+                                                    changes</button>
+                                            </div>
+                                        </div>
+                                        {{-- <button name="status_id" value="2" class="btn btn-danger btn-sm"><i
+                                                class="bi bi-x"></i></button> --}}
+                                    </form>
+                                </div>
+                                {{-- <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" value="" class="btn btn-primary">Save
+                                        changes</button>
+                                </div> --}}
+                            </div>
+                        </div>
+                    </div><!-- End Basic Modal-->
                 @else
                     <span class="badge border-dark border-1 text-dark small fst-italic" style="color:#012970;"> sudah
                         diverifikasi</span>
                 @endif
 
-                {{-- <a href="/status_setuju/{{ $data->kode_peminjaman }}" type="button"
-                                                        class="btn btn-success btn-sm"><i
-                                                            class="bi bi-check-lg"></i></a> --}}
-                <!--STATUS DI TOLAK -->
-                {{-- <a href="/status_ditolak/{{ $data->kode_peminjaman }}"
-                                                        type="button" class="btn btn-danger btn-sm"><i
-                                                            class="bi bi-x"></i></a> --}}
 
-                {{-- <span class="badge border-dark border-1 text-dark small fst-italic"
-                                                        style="color:#012970;">sudah
-                                                        diverifikasi</span> --}}
             </td>
 
             </tr>
