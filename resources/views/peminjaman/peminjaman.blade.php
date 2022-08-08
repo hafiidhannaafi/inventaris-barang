@@ -196,6 +196,14 @@
                                                                                             :{{ $data->tgl_kembali }}
                                                                                         </div>
                                                                                     </div>
+                                                                                    <div class="row">
+                                                                                        <div
+                                                                                            class="col-lg-5 col-md-4 label">
+                                                                                            Surat pengantar :</div>
+                                                                                        <div class="col-lg-7 col-md-8">
+                                                                                            :{{ $data->surat_pinjam }}
+                                                                                        </div>
+                                                                                    </div>
 
                                                                                     <div class="row">
                                                                                         <div
@@ -240,10 +248,20 @@
                                                 <td>
                                                     <?php $belumada_status = '<div class="badge bg-secondary btn-sm"></i> pengajuan</div>'; ?>
                                                     @foreach ($trxstatus as $a)
-                                                        @if ($data->id == $a->pinjams_id)
+                                                        @if ($data->kode_peminjaman == $a->kode_peminjaman)
                                                             @foreach ($status as $b)
-                                                                @if ($a->status_id == $b->id)
-                                                                    <?php $belumada_status = '<div class="badge bg-info btn-sm dropdown-toggle style=" float :right; background-color:   #012970; color:#FFFFFF" ' . $data->id . '" data-bs-toggle="modal" data-bs-target="#status' . $data->id . '"id="#status' . $data->id . '"> ' . $b->status . ' </div>'; ?>
+                                                                @if ($a->status_id == $b->id && $b->id == 4)
+                                                                    <?php $belumada_status = '<div class="badge bg-info btn-sm dropdown-toggle ' . $data->kode_peminjaman . '" data-bs-toggle="modal" data-bs-target="#status' . $data->kode_peminjaman . '"id="#status' . $data->kode_peminjaman . '"> ' . $b->status . ' </div>'; ?>
+                                                                @elseif($a->status_id == $b->id && $b->id == 2)
+                                                                    <?php $belumada_status = '<div class="badge bg-danger btn-sm dropdown-toggle ' . $data->kode_peminjaman . '" data-bs-toggle="modal" data-bs-target="#status' . $data->kode_peminjaman . '"id="#status' . $data->kode_peminjaman . '"> ' . $b->status . ' </div>'; ?>
+                                                                @elseif($a->status_id == $b->id && $b->id == 3)
+                                                                    <?php $belumada_status = '<div class="badge bg-warning btn-sm dropdown-toggle ' . $data->kode_peminjaman . '" data-bs-toggle="modal" data-bs-target="#status' . $data->kode_peminjaman . '"id="#status' . $data->kode_peminjaman . '"> ' . $b->status . ' </div>'; ?>
+                                                                @elseif($a->status_id == $b->id && $b->id == 1)
+                                                                    <?php $belumada_status = '<div class="badge bg-success btn-sm dropdown-toggle ' . $data->kode_peminjaman . '" data-bs-toggle="modal" data-bs-target="#status' . $data->kode_peminjaman . '"id="#status' . $data->kode_peminjaman . '"> ' . $b->status . ' </div>'; ?>
+                                                                @elseif($a->status_id == $b->id && $b->id == 5)
+                                                                    <?php $belumada_status = '<div class="badge bg-secondary btn-sm dropdown-toggle ' . $data->kode_peminjaman . '" data-bs-toggle="modal" data-bs-target="#status' . $data->kode_peminjaman . '"id="#status' . $data->kode_peminjamans . '"> ' . $b->status . ' </div>'; ?>
+                                                                @elseif($a->status_id == $b->id && $b->id == 6)
+                                                                    <?php $belumada_status = '<div class="badge bg-primary btn-sm dropdown-toggle ' . $data->kode_peminjaman . '" data-bs-toggle="modal" data-bs-target="#status' . $data->kode_peminjaman . '"id="#status' . $data->kode_peminjamans . '"> ' . $b->status . ' </div>'; ?>
                                                                 @endif
                                                             @endforeach
                                                         @endif
@@ -252,7 +270,7 @@
 
 
                                                     {{-- Modal Status --}}
-                                                    <div class="modal fade" id="status{{ $data->id }}"
+                                                    <div class="modal fade" id="status{{ $data->kode_peminjaman }}"
                                                         tabindex="-1" role="dialog"
                                                         aria-labelledby="staticBackdropLiveLabel" aria-hidden="true">
                                                         <div class="modal-dialog modal-dialog-scrollable"
@@ -278,23 +296,26 @@
                                                                                     <h5 class="card-title">
                                                                                         Status peminjaman
                                                                                         <span>|
-                                                                                            {{ $data->nama_peminjam }}</span>
+                                                                                            {{ Auth::user()->name }}</span>
                                                                                     </h5>
                                                                                     <div
                                                                                         class="iq-timeline0 m-0 d-flex align-items-center justify-content-between position-relative">
                                                                                         <ul
                                                                                             class="list-inline p-0 m-0">
                                                                                             @foreach ($trxstatus as $a)
-                                                                                                @if ($data->id == $a->pinjams_id)
+                                                                                                @if ($data->kode_peminjaman == $a->kode_peminjaman)
                                                                                                     <li>
                                                                                                         <div
                                                                                                             class="timeline-dots timeline-dot1 border-success text-primary">
                                                                                                         </div>
                                                                                                         @foreach ($status as $item)
                                                                                                             @if ($a->status_id == $item->id)
-                                                                                                                <h6
-                                                                                                                    class="float-left mb-1">
-                                                                                                                    {{ $item->status }}
+                                                                                                                <h6 style="color:#012970;"
+                                                                                                                    class="d-inline-block w-100">
+                                                                                                                    <b>
+                                                                                                                        {{ $item->status }}
+
+                                                                                                                    </b>
                                                                                                                 </h6>
                                                                                                             @endif
                                                                                                         @endforeach
@@ -306,16 +327,32 @@
                                                                                                             class="d-inline-block w-100">
                                                                                                             <p>
                                                                                                                 Diverifikasi
-                                                                                                                oleh :
+                                                                                                                oleh
+                                                                                                                :
                                                                                                                 {{ $p->name }}<br>
                                                                                                                 Pada
                                                                                                                 Tanggal
                                                                                                                 :
                                                                                                                 <?php echo date('d F Y', strtotime($a->created_at)); ?>
+                                                                                                                <br>
+                                                                                                                @if ($a->ket)
+                                                                                                                    ket
+                                                                                                                    :
+                                                                                                                    {{ $a->ket }}
+                                                                                                                @else
+                                                                                                                    ket
+                                                                                                                    :
+                                                                                                                    silakan
+                                                                                                                    menemui
+                                                                                                                    admin
+                                                                                                                    untuk
+                                                                                                                    mengambil
+                                                                                                                    barang
+                                                                                                                @endif
                                                                                                             </p>
                                                                                                         </div>
                                                                                                         <?php }
-                                                                                                                        }
+  }
                                                                                                                         ?>
 
                                                                                                     </li>
@@ -384,51 +421,86 @@
 
             <td>
                 <!--STATUS BARANG DIAMBIL-->
-
                 @php
-                    $statuss = App\Models\Trxstatus::where('pinjams_id', $data->id)
-                        ->orderBy('id', 'desc')
+                    $statuss = App\Models\Trxstatus::where('kode_peminjaman', $data->kode_peminjaman)
+                        ->orderBy('id', 'desc') //status dimana id nya terakhir dnegan kdoe tersebut
                         ->first();
                 @endphp
 
                 <form action="/insertstatus" method="POST" enctype="multipart/form-data">
                     @csrf
-                    <input type="hidden" name="pinjams_id" value={{ $data->id }}>
+                    <input type="text" name="kode_peminjaman" value={{ $data->kode_peminjaman }} hidden>
                     <input type="hidden" name="users_id" value={{ Auth::user()->id }}>
                     <button name="status_id" value="3" class="btn btn-warning btn-sm"> <i
                             class="bi bi-cart-check-fill"></i></button>
                 </form>
 
-                <span class="badge border-dark border-1 text-dark small fst-italic" style="color:#012970;">barang
-                    sedang dipinjam</span>
 
-
-                <!--STATUS DI KEMBALIKAN -->
-                <form action="/mengembalikan/{{ $data->id }}" method="GET" enctype="multipart/form-data">
+                {{-- <form action="/menyetujui/{{ $data->id }}" method="GET" enctype="multipart/form-data">
                     @csrf
-                    <input type="text" name="pinjams_id" value={{ $data->id }} hidden>
+                    <input type="text" name="kode_peminjaman" value={{ $data->kode_peminjaman }} hidden>
                     <input type="text" name="users_id" value={{ Auth::user()->id }} hidden>
-                    {{-- <button style=" float :right; background-color:   #012970; color:#FFFFFF" type="submit"
-                            class="btn btn btn-sm">Submit</button> --}}
-                    <button type="submit" class="btn btn-info btn-sm"><i
-                            class="bi bi-person-check-fill"></i></button>
-                </form>
+
+                    <button name="status_id" value="1" class="btn btn-success btn-sm"> <i
+                            class="bi bi-check-lg"></i></button>
+                </form> --}}
+
+                <!--STATUS DIKEMBALIKAN -->
+
+                <!-- Basic Modal -->
+                <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal"
+                    data-bs-target="#statuspengembalian{{ $data->id }}">
+                    <i class="bi bi-person-check-fill"></i>
+                </button>
+
+                <div class="modal fade" id="statuspengembalian{{ $data->id }}" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="/mengembalikan/{{ $data->id }}" method="GET"
+                                    enctype="multipart/form-data">
+                                    @csrf
+                                    <input type="text" name="kode_peminjaman" value={{ $data->kode_peminjaman }}
+                                        hidden>
+                                    <input type="hidden" name="users_id" value={{ Auth::user()->id }}>
+                                    <input type="hidden" name="status_id" value="4">
+                                    <div class="row mb-3">
+                                        <center>
+                                            <h5 style="align-content: center" class="card-title">Keterangan
+                                                Pengembalian
+                                            </h5>
+                                            <center>
+                                                <div class="col-sm-10">
+                                                    <input type="text" id="validationTooltip03" name="ket"
+                                                        class="form-control" placeholder="Isikan keterangan">
+                                                    <div class="invalid-feedback">
+                                                        Harus di isi
+                                                    </div>
+                                                </div><br>
+
+
+                                                <button type="submit" value="" class="btn btn btn-sm"
+                                                    style=" float :right; background-color:   #012970; color:#FFFFFF">submit</button>
+
+                                    </div>
+
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div><!-- End Basic Modal-->
 
                 <span class="badge border-dark border-1 text-dark small fst-italic" style="color:#012970;">peminjaman
                     selesai</span>
 
 
-                {{-- <a href="/status_setuju/{{ $data->kode_peminjaman }}" type="button"
-                                                        class="btn btn-success btn-sm"><i
-                                                            class="bi bi-check-lg"></i></a> --}}
-                <!--STATUS DI TOLAK -->
-                {{-- <a href="/status_ditolak/{{ $data->kode_peminjaman }}"
-                                                        type="button" class="btn btn-danger btn-sm"><i
-                                                            class="bi bi-x"></i></a> --}}
 
-                {{-- <span class="badge border-dark border-1 text-dark small fst-italic"
-                                                        style="color:#012970;">sudah
-                                                        diverifikasi</span> --}}
             </td>
 
             </tr>

@@ -32,6 +32,7 @@ use App\Http\Controllers\AuthController;
 
 Route::POST('insertstatus', [PinjamController::class, "insertstatus"])->name('insertstatus');
 Route::GET('/mengembalikan/{id}', [PinjamController::class, "mengembalikan"]);
+Route::GET('/menyetujui/{id}', [PinjamController::class, "menyetujui"]);
 
 
 //LANDING PAGES

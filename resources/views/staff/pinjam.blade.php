@@ -196,6 +196,14 @@
                                                                                             :{{ $data->tgl_kembali }}
                                                                                         </div>
                                                                                     </div>
+                                                                                    <div class="row">
+                                                                                        <div
+                                                                                            class="col-lg-5 col-md-4 label">
+                                                                                            Surat pengantar :</div>
+                                                                                        <div class="col-lg-7 col-md-8">
+                                                                                            :{{ $data->surat_pinjam }}
+                                                                                        </div>
+                                                                                    </div>
 
                                                                                     <div class="row">
                                                                                         <div
@@ -250,6 +258,8 @@
                                                                     <?php $belumada_status = '<div class="badge bg-warning btn-sm dropdown-toggle ' . $data->id . '" data-bs-toggle="modal" data-bs-target="#status' . $data->id . '"id="#status' . $data->id . '"> ' . $b->status . ' </div>'; ?>
                                                                 @elseif($a->status_id == $b->id && $b->id == 1)
                                                                     <?php $belumada_status = '<div class="badge bg-success btn-sm dropdown-toggle ' . $data->id . '" data-bs-toggle="modal" data-bs-target="#status' . $data->id . '"id="#status' . $data->id . '"> ' . $b->status . ' </div>'; ?>
+                                                                @elseif($a->status_id == $b->id && $b->id == 5)
+                                                                    <?php $belumada_status = '<div class="badge bg-secondary btn-sm dropdown-toggle ' . $data->id . '" data-bs-toggle="modal" data-bs-target="#status' . $data->id . '"id="#status' . $data->id . '"> ' . $b->status . ' </div>'; ?>
                                                                 @endif
                                                             @endforeach
                                                         @endif
@@ -298,9 +308,12 @@
                                                                                                         </div>
                                                                                                         @foreach ($status as $item)
                                                                                                             @if ($a->status_id == $item->id)
-                                                                                                                <h6
-                                                                                                                    class="float-left mb-1">
-                                                                                                                    {{ $item->status }}
+                                                                                                                <h6 style="color:#012970;"
+                                                                                                                    class="d-inline-block w-100">
+                                                                                                                    <b>
+                                                                                                                        {{ $item->status }}
+
+                                                                                                                    </b>
                                                                                                                 </h6>
                                                                                                             @endif
                                                                                                         @endforeach

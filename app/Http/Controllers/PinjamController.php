@@ -17,6 +17,7 @@ use App\Models\DetailPeminjaman;
 use App\Models\StatusKonfirmasi;
 use App\Models\StatusPeminjaman;
 use App\Models\DataAsalPerolehan;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class PinjamController extends Controller
@@ -211,8 +212,7 @@ class PinjamController extends Controller
         $huruf = "PB";
         $urutan = (int)substr($data, 3, 3);
         $urutan++;
-        $book_id = $huruf . sprintf("%04s", $urutan);
-
+        $book_id = $huruf . uniqid();
         $pinjam = new Pinjam();
 
         $pinjam->kode_peminjaman = $book_id;
@@ -236,8 +236,12 @@ class PinjamController extends Controller
         if ($b->jumlah < $pinjam->jumlah_pinjam) {
             return redirect()->back()->with('warning', 'Maaf jumlah barang yang anda pinjam melebihi dari sisa stok yang ada');
         } else {
-            // $b->jumlah -= (int)$pinjam->jumlah_pinjam;
-            // $b->save();
+
+            $trxstatus = new TrxStatus;
+            $trxstatus->kode_peminjaman = $book_id;
+            $trxstatus->users_id = $request->input('users_id');
+            $trxstatus->status_id = 5;
+            $trxstatus->save();
 
             return redirect()->back()->with('success', 'Pengajuan Peminjaman Sukses');
         }
@@ -246,8 +250,16 @@ class PinjamController extends Controller
 
     public function insertstatus(Request $request)
     {
+        $data = Pinjam::max('kode_peminjaman');
+        $huruf = "PB";
+        $urutan = (int)substr($data, 3, 3);
+        $urutan++;
+        $book_id = $huruf . uniqid();
+
+
+        $pinjam = Pinjam::where('kode_peminjaman', $book_id)->first();
         $trxstatus = new TrxStatus;
-        $trxstatus->pinjams_id = $request->input('pinjams_id');
+        $trxstatus->kode_peminjaman = $request->input('kode_peminjaman');
         $trxstatus->users_id = $request->input('users_id');
         $trxstatus->status_id = $request->input('status_id');
         $trxstatus->ket = $request->input('ket');
@@ -256,22 +268,49 @@ class PinjamController extends Controller
         return redirect()->back()->with('success', 'Verifikasi status berhasil');
     }
 
-    public function mengembalikan(Request $request, $id)
+    public function menyetujui(Request $request, $id)
     {
-        $pinjam = Pinjam::where('id', $id)->first();
+        $pinjams = Pinjam::where('id', $id)->first();
+        // dd($id);
+        // $pinjam = Pinjam::where('kode_peminjaman', $pinjams->kode_peminjaman)->first();
+        // $pinjams = Pinjam::where('id', $pinjam->id)->first();
         $trxstatus = new TrxStatus;
-        $trxstatus->pinjams_id = $request->input('pinjams_id');
+        $trxstatus->kode_peminjaman = $request->input('kode_peminjaman');
         $trxstatus->users_id = $request->input('users_id');
-        $trxstatus->status_id = 4;
+        $trxstatus->status_id = 1;
         $trxstatus->save();
 
-        // $trxstatus = TrxStatus::where('pinjams_id', $pinjam->id)->orderby('created_at', 'desc')->first();
-        // $trxstatus->status_id = 4;
-        // $trxstatus->save();
-        $b = Barang::where('id', $pinjam->barangs_id)->first(); {
-            $b->jumlah += (int) $pinjam->jumlah_pinjam;
-            $b->save();
+        $brg = Barang::where('id', $pinjams->barangs_id)->first(); {
+            $brg->jumlah -= (int) $pinjams->jumlah_pinjam;
+            $brg->save();
         }
+        return redirect()->back()->with('success', 'Verifikasi status berhasil');
+    }
+
+    public function mengembalikan(Request $request, $id)
+    {
+        $pinjams = Pinjam::where('id', $id)->first();
+        $tgl_sekarang = Carbon::now()->format('Y-m-d');
+        if ($tgl_sekarang > $pinjams->tgl_kembali) {
+            $trxstatus = new TrxStatus;
+            $trxstatus->kode_peminjaman = $request->input('kode_peminjaman');
+            $trxstatus->users_id = $request->input('users_id');
+            $trxstatus->ket = $request->input('ket');
+            $trxstatus->status_id = 6;
+            $trxstatus->save();
+        } else {
+            $trxstatus = new TrxStatus;
+            $trxstatus->kode_peminjaman = $request->input('kode_peminjaman');
+            $trxstatus->users_id = $request->input('users_id');
+            $trxstatus->ket = $request->input('ket');
+            $trxstatus->status_id = 4;
+            $trxstatus->save();
+        }
+        $brg = Barang::where('id', $pinjams->barangs_id)->first();
+        $brg->jumlah += (int) $pinjams->jumlah_pinjam;
+        $brg->save();
+
+
         return redirect()->back()->with('success', 'Verifikasi status berhasil');
     }
 }

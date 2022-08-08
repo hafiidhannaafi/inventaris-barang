@@ -196,6 +196,14 @@
                                                                                             :{{ $data->tgl_kembali }}
                                                                                         </div>
                                                                                     </div>
+                                                                                    <div class="row">
+                                                                                        <div
+                                                                                            class="col-lg-5 col-md-4 label">
+                                                                                            Surat pengantar :</div>
+                                                                                        <div class="col-lg-7 col-md-8">
+                                                                                            :{{ $data->surat_pinjam }}
+                                                                                        </div>
+                                                                                    </div>
 
                                                                                     <div class="row">
                                                                                         <div
@@ -203,9 +211,9 @@
                                                                                             Barang Pinjam </div>
                                                                                         <div class="col-lg-7 col-md-8">
                                                                                             :
-                                                                                            {{-- {{ $data->barangs->kode }}
+                                                                                            {{ $data->barangs->kode }}
                                                                                             {{ $data->barangs->jenis_barangs->jenis_barang }}
-                                                                                            {{ $data->barangs->spesifikasi }} --}}
+                                                                                            {{ $data->barangs->spesifikasi }}
                                                                                         </div>
                                                                                     </div>
 
@@ -240,16 +248,18 @@
                                                 <td>
                                                     <?php $belumada_status = '<div class="badge bg-secondary btn-sm"></i> pengajuan</div>'; ?>
                                                     @foreach ($trxstatus as $a)
-                                                        @if ($data->id == $a->pinjams_id)
+                                                        @if ($data->kode_peminjaman == $a->kode_peminjaman)
                                                             @foreach ($status as $b)
                                                                 @if ($a->status_id == $b->id && $b->id == 4)
-                                                                    <?php $belumada_status = '<div class="badge bg-info btn-sm dropdown-toggle ' . $data->id . '" data-bs-toggle="modal" data-bs-target="#status' . $data->id . '"id="#status' . $data->id . '"> ' . $b->status . ' </div>'; ?>
+                                                                    <?php $belumada_status = '<div class="badge bg-info btn-sm dropdown-toggle ' . $data->kode_peminjaman . '" data-bs-toggle="modal" data-bs-target="#status' . $data->kode_peminjaman . '"id="#status' . $data->kode_peminjaman . '"> ' . $b->status . ' </div>'; ?>
                                                                 @elseif($a->status_id == $b->id && $b->id == 2)
-                                                                    <?php $belumada_status = '<div class="badge bg-danger btn-sm dropdown-toggle ' . $data->id . '" data-bs-toggle="modal" data-bs-target="#status' . $data->id . '"id="#status' . $data->id . '"> ' . $b->status . ' </div>'; ?>
+                                                                    <?php $belumada_status = '<div class="badge bg-danger btn-sm dropdown-toggle ' . $data->kode_peminjaman . '" data-bs-toggle="modal" data-bs-target="#status' . $data->kode_peminjaman . '"id="#status' . $data->kode_peminjaman . '"> ' . $b->status . ' </div>'; ?>
                                                                 @elseif($a->status_id == $b->id && $b->id == 3)
-                                                                    <?php $belumada_status = '<div class="badge bg-warning btn-sm dropdown-toggle ' . $data->id . '" data-bs-toggle="modal" data-bs-target="#status' . $data->id . '"id="#status' . $data->id . '"> ' . $b->status . ' </div>'; ?>
+                                                                    <?php $belumada_status = '<div class="badge bg-warning btn-sm dropdown-toggle ' . $data->kode_peminjaman . '" data-bs-toggle="modal" data-bs-target="#status' . $data->kode_peminjaman . '"id="#status' . $data->kode_peminjaman . '"> ' . $b->status . ' </div>'; ?>
                                                                 @elseif($a->status_id == $b->id && $b->id == 1)
-                                                                    <?php $belumada_status = '<div class="badge bg-success btn-sm dropdown-toggle ' . $data->id . '" data-bs-toggle="modal" data-bs-target="#status' . $data->id . '"id="#status' . $data->id . '"> ' . $b->status . ' </div>'; ?>
+                                                                    <?php $belumada_status = '<div class="badge bg-success btn-sm dropdown-toggle ' . $data->kode_peminjaman . '" data-bs-toggle="modal" data-bs-target="#status' . $data->kode_peminjaman . '"id="#status' . $data->kode_peminjaman . '"> ' . $b->status . ' </div>'; ?>
+                                                                @elseif($a->status_id == $b->id && $b->id == 5)
+                                                                    <?php $belumada_status = '<div class="badge bg-secondary btn-sm dropdown-toggle ' . $data->kode_peminjaman . '" data-bs-toggle="modal" data-bs-target="#status' . $data->kode_peminjaman . '"id="#status' . $data->kode_peminjamans . '"> ' . $b->status . ' </div>'; ?>
                                                                 @endif
                                                             @endforeach
                                                         @endif
@@ -258,7 +268,7 @@
 
 
                                                     {{-- Modal Status --}}
-                                                    <div class="modal fade" id="status{{ $data->id }}"
+                                                    <div class="modal fade" id="status{{ $data->kode_peminjaman }}"
                                                         tabindex="-1" role="dialog"
                                                         aria-labelledby="staticBackdropLiveLabel" aria-hidden="true">
                                                         <div class="modal-dialog modal-dialog-scrollable"
@@ -291,16 +301,19 @@
                                                                                         <ul
                                                                                             class="list-inline p-0 m-0">
                                                                                             @foreach ($trxstatus as $a)
-                                                                                                @if ($data->id == $a->pinjams_id)
+                                                                                                @if ($data->kode_peminjaman == $a->kode_peminjaman)
                                                                                                     <li>
                                                                                                         <div
                                                                                                             class="timeline-dots timeline-dot1 border-success text-primary">
                                                                                                         </div>
                                                                                                         @foreach ($status as $item)
                                                                                                             @if ($a->status_id == $item->id)
-                                                                                                                <h6
-                                                                                                                    class="float-left mb-1">
-                                                                                                                    {{ $item->status }}
+                                                                                                                <h6 style="color:#012970;"
+                                                                                                                    class="d-inline-block w-100">
+                                                                                                                    <b>
+                                                                                                                        {{ $item->status }}
+
+                                                                                                                    </b>
                                                                                                                 </h6>
                                                                                                             @endif
                                                                                                         @endforeach
@@ -320,13 +333,24 @@
                                                                                                                 :
                                                                                                                 <?php echo date('d F Y', strtotime($a->created_at)); ?>
                                                                                                                 <br>
-                                                                                                                ket
-                                                                                                                :
-                                                                                                                {{ $a->ket }}
+                                                                                                                @if ($a->ket)
+                                                                                                                    ket
+                                                                                                                    :
+                                                                                                                    {{ $a->ket }}
+                                                                                                                @else
+                                                                                                                    ket
+                                                                                                                    :
+                                                                                                                    silakan
+                                                                                                                    menemui
+                                                                                                                    admin
+                                                                                                                    untuk
+                                                                                                                    mengambil
+                                                                                                                    barang
+                                                                                                                @endif
                                                                                                             </p>
                                                                                                         </div>
                                                                                                         <?php }
-                                                                                                                        }
+  }
                                                                                                                         ?>
 
                                                                                                     </li>
@@ -396,71 +420,67 @@
             <td>
                 <!--STATUS DISETUJUI-->
                 @php
-                    $statuss = App\Models\Trxstatus::where('pinjams_id', $data->id)
-                        ->orderBy('id', 'desc')
+                    $statuss = App\Models\Trxstatus::where('kode_peminjaman', $data->kode_peminjaman)
+                        ->orderBy('id', 'desc') //status dimana id nya terakhir dnegan kdoe tersebut
                         ->first();
                 @endphp
 
-                @if (empty($statuss))
-                    <form action="/insertstatus" method="POST" enctype="multipart/form-data">
+                @if ($statuss->status_id == 5)
+                    <form action="/menyetujui/{{ $data->id }}" method="GET" enctype="multipart/form-data">
                         @csrf
-                        <input type="hidden" name="pinjams_id" value={{ $data->id }}>
-                        <input type="hidden" name="users_id" value={{ Auth::user()->id }}>
+                        <input type="text" name="kode_peminjaman" value={{ $data->kode_peminjaman }} hidden>
+                        <input type="text" name="users_id" value={{ Auth::user()->id }} hidden>
+
                         <button name="status_id" value="1" class="btn btn-success btn-sm"> <i
                                 class="bi bi-check-lg"></i></button>
                     </form>
                     <!--STATUS DI TOLAK -->
 
                     <!-- Basic Modal -->
-
-
                     <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                        data-bs-target="#statustolak{{ $data->id }}">
+                        data-bs-target="#statustolak{{ $data->kode_peminjaman }}">
                         <i class="bi bi-x"></i>
                     </button>
 
-                    <div class="modal fade" id="statustolak{{ $data->id }}" tabindex="-1">
+                    <div class="modal fade" id="statustolak{{ $data->kode_peminjaman }}" tabindex="-1">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    {{-- <h5 class="modal-title">Keterangan</h5> --}}
+
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
                                     <form action="/insertstatus" method="POST" enctype="multipart/form-data">
                                         @csrf
-                                        <input type="hidden" name="pinjams_id" value={{ $data->id }}>
+                                        <input type="hidden" name="kode_peminjaman"
+                                            value={{ $data->kode_peminjaman }}>
                                         <input type="hidden" name="users_id" value={{ Auth::user()->id }}>
                                         <input type="hidden" name="status_id" value="2">
                                         <div class="row mb-3">
-                                            {{-- <h1 class="card-title text-center pb-0 fs-5">Formulir Peminjaman Barang
-                                            </h1></br> --}}
-                                            <div class="col-sm-10">
-                                                <input type="text" id="validationTooltip03" name="ket"
-                                                    class="form-control"
-                                                    placeholder="isikan keterangan penolakan peminjaman">
-                                                <div class="invalid-feedback">
-                                                    Harus di isi
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-bs-dismiss="modal">Close</button>
-                                                <button type="submit" value="" class="btn btn-primary">Save
-                                                    changes</button>
-                                            </div>
+                                            <center>
+                                                <h5 style="align-content: center" class="card-title">Keterangan
+                                                    Penolakan
+
+                                                </h5>
+                                                <center>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" id="validationTooltip03" name="ket"
+                                                            class="form-control" placeholder="Isikan keterangan">
+                                                        <div class="invalid-feedback">
+                                                            Harus di isi
+                                                        </div>
+                                                    </div><br>
+
+
+                                                    <button type="submit" value="" class="btn btn btn-sm"
+                                                        style=" float :right; background-color:   #012970; color:#FFFFFF">submit</button>
+
                                         </div>
-                                        {{-- <button name="status_id" value="2" class="btn btn-danger btn-sm"><i
-                                                class="bi bi-x"></i></button> --}}
+
                                     </form>
                                 </div>
-                                {{-- <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" value="" class="btn btn-primary">Save
-                                        changes</button>
-                                </div> --}}
+
                             </div>
                         </div>
                     </div><!-- End Basic Modal-->
