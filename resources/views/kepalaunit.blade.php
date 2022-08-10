@@ -58,17 +58,41 @@
                                 new ApexCharts(document.querySelector("#columnChart"), {
                                     series: [{
                                             name: 'Aset Bergerak',
-                                            data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
+                                            data: [{!! json_encode($bergerak_jan) !!}, {!! json_encode($bergerak_feb) !!},
+                                                {!! json_encode($bergerak_mar) !!}, {!! json_encode($bergerak_apr) !!},
+                                                {!! json_encode($bergerak_mei) !!}, {!! json_encode($bergerak_jun) !!},
+                                                {!! json_encode($bergerak_juli) !!}, {!! json_encode($bergerak_agus) !!},
+                                                {!! json_encode($bergerak_sept) !!}, {!! json_encode($bergerak_okto) !!},
+                                                {!! json_encode($bergerak_nove) !!}, {!! json_encode($bergerak_dese) !!}
+                                            ]
                                         }, {
                                             name: 'Aset Tidak Bergerak',
-                                            data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
+                                            data: [{!! json_encode($bergerak_jan) !!}, {!! json_encode($tdkbergerak_feb) !!},
+                                                {!! json_encode($tdkbergerak_mar) !!}, {!! json_encode($tdkbergerak_apr) !!},
+                                                {!! json_encode($tdkbergerak_mei) !!}, {!! json_encode($tdkbergerak_jun) !!},
+                                                {!! json_encode($tdkbergerak_juli) !!}, {!! json_encode($tdkbergerak_agus) !!},
+                                                {!! json_encode($tdkbergerak_sept) !!}, {!! json_encode($tdkbergerak_okto) !!},
+                                                {!! json_encode($tdkbergerak_nove) !!}, {!! json_encode($tdkbergerak_dese) !!}
+                                            ]
                                         }, {
                                             name: 'Aset Peralatan',
-                                            data: [35, 41, 36, 26, 45, 48, 52, 53, 41]
+                                            data: [{!! json_encode($peralatan_jan) !!}, {!! json_encode($peralatan_feb) !!},
+                                                {!! json_encode($peralatan_mar) !!}, {!! json_encode($peralatan_apr) !!},
+                                                {!! json_encode($peralatan_mei) !!}, {!! json_encode($peralatan_jun) !!},
+                                                {!! json_encode($peralatan_juli) !!}, {!! json_encode($peralatan_agus) !!},
+                                                {!! json_encode($peralatan_sept) !!}, {!! json_encode($peralatan_okto) !!},
+                                                {!! json_encode($peralatan_nove) !!}, {!! json_encode($peralatan_dese) !!}
+                                            ]
                                         },
                                         {
                                             name: 'Aset Perlengkapan',
-                                            data: [35, 41, 36, 26, 45, 48, 52, 53, 41]
+                                            data: [{!! json_encode($perlengkapan_jan) !!}, {!! json_encode($perlengkapan_feb) !!},
+                                                {!! json_encode($perlengkapan_mar) !!}, {!! json_encode($perlengkapan_apr) !!},
+                                                {!! json_encode($perlengkapan_mei) !!}, {!! json_encode($perlengkapan_jun) !!},
+                                                {!! json_encode($perlengkapan_juli) !!}, {!! json_encode($perlengkapan_agus) !!},
+                                                {!! json_encode($perlengkapan_sept) !!}, {!! json_encode($perlengkapan_okto) !!},
+                                                {!! json_encode($perlengkapan_nove) !!}, {!! json_encode($perlengkapan_dese) !!}
+                                            ]
                                         }
                                     ],
                                     chart: {
@@ -97,7 +121,7 @@
                                     },
                                     yaxis: {
                                         title: {
-                                            text: '$ (thousands)'
+                                            text: ' buah'
                                         }
                                     },
                                     fill: {
@@ -106,7 +130,7 @@
                                     tooltip: {
                                         y: {
                                             formatter: function(val) {
-                                                return "$ " + val + " thousands"
+                                                return " " + val + " buah"
                                             }
                                         }
                                     }
@@ -145,25 +169,61 @@
                                 new ApexCharts(document.querySelector("#columnChart2"), {
                                     series: [{
                                             name: 'Pengajuan',
-                                            data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
+                                            data: [{!! json_encode($total_jan) !!}, {!! json_encode($total_feb) !!},
+                                                {!! json_encode($total_mar) !!}, {!! json_encode($total_apr) !!},
+                                                {!! json_encode($total_mei) !!}, {!! json_encode($total_jun) !!},
+                                                {!! json_encode($total_juli) !!}, {!! json_encode($total_agus) !!},
+                                                {!! json_encode($total_sept) !!}, {!! json_encode($total_okto) !!},
+                                                {!! json_encode($total_nove) !!}, {!! json_encode($total_dese) !!}
+                                            ]
                                         }, {
                                             name: 'Disetujui',
-                                            data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
+                                            data: [{!! json_encode($disetujui_jan) !!}, {!! json_encode($disetujui_feb) !!},
+                                                {!! json_encode($disetujui_mar) !!}, {!! json_encode($disetujui_apr) !!},
+                                                {!! json_encode($disetujui_mei) !!}, {!! json_encode($disetujui_jun) !!},
+                                                {!! json_encode($disetujui_juli) !!}, {!! json_encode($disetujui_agus) !!},
+                                                {!! json_encode($disetujui_sept) !!}, {!! json_encode($disetujui_okto) !!},
+                                                {!! json_encode($disetujui_nove) !!}, {!! json_encode($disetujui_dese) !!}
+                                            ]
                                         }, {
                                             name: 'Ditolak',
-                                            data: [35, 41, 36, 26, 45, 48, 52, 53, 41]
+                                            data: [{!! json_encode($ditolak_jan) !!}, {!! json_encode($ditolak_feb) !!},
+                                                {!! json_encode($ditolak_mar) !!}, {!! json_encode($ditolak_apr) !!},
+                                                {!! json_encode($ditolak_mei) !!}, {!! json_encode($ditolak_jun) !!},
+                                                {!! json_encode($ditolak_juli) !!}, {!! json_encode($ditolak_agus) !!},
+                                                {!! json_encode($ditolak_sept) !!}, {!! json_encode($ditolak_okto) !!},
+                                                {!! json_encode($ditolak_nove) !!}, {!! json_encode($ditolak_dese) !!}
+                                            ]
                                         },
                                         {
                                             name: 'Barang diambil',
-                                            data: [35, 41, 36, 26, 45, 48, 52, 53, 41]
+                                            data: [{!! json_encode($ambilbarang_jan) !!}, {!! json_encode($ambilbarang_feb) !!},
+                                                {!! json_encode($ambilbarang_mar) !!}, {!! json_encode($ambilbarang_apr) !!},
+                                                {!! json_encode($ambilbarang_mei) !!}, {!! json_encode($ambilbarang_jun) !!},
+                                                {!! json_encode($ambilbarang_juli) !!}, {!! json_encode($ambilbarang_agus) !!},
+                                                {!! json_encode($ambilbarang_sept) !!}, {!! json_encode($ambilbarang_okto) !!},
+                                                {!! json_encode($ambilbarang_nove) !!}, {!! json_encode($ambilbarang_dese) !!}
+                                            ]
                                         },
                                         {
                                             name: 'Dikembalikan',
-                                            data: [35, 41, 36, 26, 45, 48, 52, 53]
+                                            data: [{!! json_encode($dikembalikan_jan) !!}, {!! json_encode($dikembalikan_feb) !!},
+                                                {!! json_encode($dikembalikan_mar) !!}, {!! json_encode($dikembalikan_apr) !!},
+                                                {!! json_encode($dikembalikan_mei) !!}, {!! json_encode($dikembalikan_jun) !!},
+                                                {!! json_encode($dikembalikan_juli) !!}, {!! json_encode($dikembalikan_agus) !!},
+                                                {!! json_encode($dikembalikan_sept) !!}, {!! json_encode($dikembalikan_okto) !!},
+                                                {!! json_encode($dikembalikan_nove) !!}, {!! json_encode($dikembalikan_dese) !!}
+                                            ]
                                         },
                                         {
                                             name: 'Terlambat kembali',
-                                            data: [35, 41, 36, 26, 45, 48, 52, 53, 41]
+                                            data: [{!! json_encode($terlambat_jan) !!}, {!! json_encode($terlambat_feb) !!},
+                                                {!! json_encode($terlambat_mar) !!}, {!! json_encode($terlambat_apr) !!},
+                                                {!! json_encode($terlambat_mei) !!}, {!! json_encode($terlambat_jun) !!},
+                                                {!! json_encode($terlambat_juli) !!}, {!! json_encode($terlambat_agus) !!},
+                                                {!! json_encode($terlambat_sept) !!}, {!! json_encode($terlambat_okto) !!},
+                                                {!! json_encode($terlambat_nove) !!}, {!! json_encode($terlambat_dese) !!}
+                                            ]
                                         }
                                     ],
                                     chart: {
@@ -182,7 +242,7 @@
                                     },
                                     stroke: {
                                         show: true,
-                                        width: 2,
+                                        width: 1,
                                         colors: ['transparent']
                                     },
                                     xaxis: {
@@ -192,7 +252,7 @@
                                     },
                                     yaxis: {
                                         title: {
-                                            text: '$ (thousands)'
+                                            text: 'peminjaman'
                                         }
                                     },
                                     fill: {
@@ -201,7 +261,7 @@
                                     tooltip: {
                                         y: {
                                             formatter: function(val) {
-                                                return "$ " + val + " thousands"
+                                                return "  " + val + " peminjaman"
                                             }
                                         }
                                     }

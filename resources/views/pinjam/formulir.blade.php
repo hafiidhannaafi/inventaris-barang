@@ -136,7 +136,7 @@
                     <div class="row mb-3">
                         <label for="validationTooltip05" class="col-sm-2 col-form-label">Tgl Pengembalian</label>
                         <div class="col-sm-10">
-                            <input type="time" step="900" id="datefield2" name="tgl_kembali" class="form-control"
+                            <input type="date"  id="datefield2" name="tgl_kembali" class="form-control"
                                 required>
                             <div class="invalid-feedback">
                                 Harus di isi

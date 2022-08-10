@@ -48,7 +48,7 @@
                                             <th scope="col">jumlah pinjam </th> --}}
                                             <th scope="col">Detail</th>
                                             <th scope="col">Status</th>
-
+                                            <th scope="col">Aksi</th>
 
                                         </tr>
                                     </thead>
@@ -248,18 +248,18 @@
                                                 <td>
                                                     <?php $belumada_status = '<div class="badge bg-secondary btn-sm"></i> pengajuan</div>'; ?>
                                                     @foreach ($trxstatus as $a)
-                                                        @if ($data->id == $a->pinjams_id)
+                                                        @if ($data->kode_peminjaman == $a->kode_peminjaman)
                                                             @foreach ($status as $b)
                                                                 @if ($a->status_id == $b->id && $b->id == 4)
-                                                                    <?php $belumada_status = '<div class="badge bg-info btn-sm dropdown-toggle ' . $data->id . '" data-bs-toggle="modal" data-bs-target="#status' . $data->id . '"id="#status' . $data->id . '"> ' . $b->status . ' </div>'; ?>
+                                                                    <?php $belumada_status = '<div class="badge bg-info btn-sm dropdown-toggle ' . $data->kode_peminjaman . '" data-bs-toggle="modal" data-bs-target="#status' . $data->kode_peminjaman . '"id="#status' . $data->kode_peminjaman . '"> ' . $b->status . ' </div>'; ?>
                                                                 @elseif($a->status_id == $b->id && $b->id == 2)
-                                                                    <?php $belumada_status = '<div class="badge bg-danger btn-sm dropdown-toggle ' . $data->id . '" data-bs-toggle="modal" data-bs-target="#status' . $data->id . '"id="#status' . $data->id . '"> ' . $b->status . ' </div>'; ?>
+                                                                    <?php $belumada_status = '<div class="badge bg-danger btn-sm dropdown-toggle ' . $data->kode_peminjaman . '" data-bs-toggle="modal" data-bs-target="#status' . $data->kode_peminjaman . '"id="#status' . $data->kode_peminjaman . '"> ' . $b->status . ' </div>'; ?>
                                                                 @elseif($a->status_id == $b->id && $b->id == 3)
-                                                                    <?php $belumada_status = '<div class="badge bg-warning btn-sm dropdown-toggle ' . $data->id . '" data-bs-toggle="modal" data-bs-target="#status' . $data->id . '"id="#status' . $data->id . '"> ' . $b->status . ' </div>'; ?>
+                                                                    <?php $belumada_status = '<div class="badge bg-warning btn-sm dropdown-toggle ' . $data->kode_peminjaman . '" data-bs-toggle="modal" data-bs-target="#status' . $data->kode_peminjaman . '"id="#status' . $data->kode_peminjaman . '"> ' . $b->status . ' </div>'; ?>
                                                                 @elseif($a->status_id == $b->id && $b->id == 1)
-                                                                    <?php $belumada_status = '<div class="badge bg-success btn-sm dropdown-toggle ' . $data->id . '" data-bs-toggle="modal" data-bs-target="#status' . $data->id . '"id="#status' . $data->id . '"> ' . $b->status . ' </div>'; ?>
+                                                                    <?php $belumada_status = '<div class="badge bg-success btn-sm dropdown-toggle ' . $data->kode_peminjaman . '" data-bs-toggle="modal" data-bs-target="#status' . $data->kode_peminjaman . '"id="#status' . $data->kode_peminjaman . '"> ' . $b->status . ' </div>'; ?>
                                                                 @elseif($a->status_id == $b->id && $b->id == 5)
-                                                                    <?php $belumada_status = '<div class="badge bg-secondary btn-sm dropdown-toggle ' . $data->id . '" data-bs-toggle="modal" data-bs-target="#status' . $data->id . '"id="#status' . $data->id . '"> ' . $b->status . ' </div>'; ?>
+                                                                    <?php $belumada_status = '<div class="badge bg-secondary btn-sm dropdown-toggle ' . $data->kode_peminjaman . '" data-bs-toggle="modal" data-bs-target="#status' . $data->kode_peminjaman . '"id="#status' . $data->kode_peminjamans . '"> ' . $b->status . ' </div>'; ?>
                                                                 @endif
                                                             @endforeach
                                                         @endif
@@ -268,7 +268,7 @@
 
 
                                                     {{-- Modal Status --}}
-                                                    <div class="modal fade" id="status{{ $data->id }}"
+                                                    <div class="modal fade" id="status{{ $data->kode_peminjaman }}"
                                                         tabindex="-1" role="dialog"
                                                         aria-labelledby="staticBackdropLiveLabel" aria-hidden="true">
                                                         <div class="modal-dialog modal-dialog-scrollable"
@@ -301,7 +301,7 @@
                                                                                         <ul
                                                                                             class="list-inline p-0 m-0">
                                                                                             @foreach ($trxstatus as $a)
-                                                                                                @if ($data->id == $a->pinjams_id)
+                                                                                                @if ($data->kode_peminjaman == $a->kode_peminjaman)
                                                                                                     <li>
                                                                                                         <div
                                                                                                             class="timeline-dots timeline-dot1 border-success text-primary">
@@ -332,10 +332,25 @@
                                                                                                                 Tanggal
                                                                                                                 :
                                                                                                                 <?php echo date('d F Y', strtotime($a->created_at)); ?>
+                                                                                                                <br>
+                                                                                                                @if ($a->ket)
+                                                                                                                    ket
+                                                                                                                    :
+                                                                                                                    {{ $a->ket }}
+                                                                                                                @else
+                                                                                                                    ket
+                                                                                                                    :
+                                                                                                                    silakan
+                                                                                                                    menemui
+                                                                                                                    admin
+                                                                                                                    untuk
+                                                                                                                    mengambil
+                                                                                                                    barang
+                                                                                                                @endif
                                                                                                             </p>
                                                                                                         </div>
                                                                                                         <?php }
-                                                                                                                        }
+  }
                                                                                                                         ?>
 
                                                                                                     </li>
