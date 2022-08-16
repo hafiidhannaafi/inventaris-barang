@@ -56,54 +56,61 @@
                     </div><!-- End Default Card -->
 
                     @isset($data)
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Laporan Peminjaman</h5>
-                                <a href="/laporanpeminjaman/{{ $startDate }}/{{ $endDate }}"
-                                    class="btn btn-secondary btn-sm float-right mr-4"><i class="bi bi-print"></i>  Cetak
-                                    PDF </a> <br>
-                                <br>
+                        {{-- <div class="card"> --}}
+                        <div class="card-body">
+                            <h5 class="card-title">Laporan Peminjaman</h5>
+                            <a href="/laporanpeminjaman/{{ $startDate }}/{{ $endDate }}"
+                                class="btn btn-secondary btn-sm float-right mr-4"><i class="bi bi-print"></i> Cetak
+                                PDF </a> <br>
+                            <br>
 
 
-                                <!-- Table with stripped rows -->
-                                <table id="example" class="table-border display nowrap" style="width:100%">
-                                    <thead>
+                            <!-- Table with stripped rows -->
+                            <table id="example" class="table-border display nowrap" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">No</th>
+                                        <th scope="col">Kode </th>
+                                        <th scope="col">Nama </th>
+                                        <th scope="col">Jenis peminjaman</th>
+                                        <th scope="col">Tgl Pengajuan</th>
+                                        <th scope="col">Tgl Peminjaman </th>
+                                        <th scope="col">Tgl Pengembalian</th>
+                                        <th scope="col">Nama barang</th>
+                                        <th scope="col">Jumlah</th>
+                                        <th scope="col">Ket</th>
+
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <?php
+                                    $nomor = 1;
+                                    ?>
+                                    @foreach ($data as $data)
                                         <tr>
-                                            <th scope="col">No</th>
-                                            <th scope="col">Kode </th>
-                                            <th scope="col">Nama </th>
-                                            <th scope="col">Tgl Pengajuan</th>
-                                            <th scope="col">Tgl Peminjaman </th>
-                                            <th scope="col">Tgl Pengembalian</th>
-                                            <th scope="col">Ket</th>
-
+                                            <th>{{ $nomor++ }}</th>
+                                            <td> {{ $data->kode_peminjaman }}</td>
+                                            <td> {{ $data->nama_peminjam }}</td>
+                                            <td> {{ $data->jenis_peminjaman }}</td>
+                                            <td> {{ $data->tgl_pengajuan }}</td>
+                                            <td> {{ $data->tgl_pinjam }}</td>
+                                            <td> {{ $data->tgl_kembali }}</td>
+                                            <td> {{ $data->barangs->kode }}
+                                                {{ $data->barangs->jenis_barangs->jenis_barang }}
+                                                {{ $data->barangs->spesifikasi }}</td>
+                                            <td> {{ $data->jumlah_pinjam }}</td>
+                                            <td> {{ $data->ket }}</td>
                                         </tr>
-                                    </thead>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                            <!-- End Table with stripped rows -->
 
-                                    <tbody>
-                                        <?php
-                                        $nomor = 1;
-                                        ?>
-                                        @foreach ($data as $data)
-                                            <tr>
-                                                <th>{{ $nomor++ }}</th>
-                                                <td> {{ $data->kode_peminjaman }}</td>
-                                                <td> {{ $data->nama_peminjam }}</td>
-                                                <td> {{ $data->jenis_peminjaman }}</td>
-                                                <td> {{ $data->tgl_pengajuan }}</td>
-                                                <td> {{ $data->tgl_pinjam }}</td>
-                                                <td> {{ $data->tgl_kembali }}</td>
-                                                <td> {{ $data->ket }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                                <!-- End Table with stripped rows -->
-
-                            </div>
                         </div>
-                    @endisset
-                </div>
+                    </div>
+                @endisset
+            </div>
             </div>
 
 
@@ -121,7 +128,7 @@
                     $('#example').DataTable({
                         dom: 'Bfrtip',
                         buttons: [
-                             'copy', 'excel', 'print'
+                            'copy', 'excel', 'print'
                         ]
                     });
                 });

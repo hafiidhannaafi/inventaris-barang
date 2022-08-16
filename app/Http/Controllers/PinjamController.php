@@ -313,4 +313,68 @@ class PinjamController extends Controller
 
         return redirect()->back()->with('success', 'Verifikasi status berhasil');
     }
+
+    public function laporanpeminjaman()
+    {
+        $dataasalperolehan = DataAsalPerolehan::all();
+        $datajenisaset = DataJenisAset::all();
+        $jenisbarang = JenisBarang::all();
+        $datasatuan = Satuan::all();
+        $inputbarang = Barang::all();
+        $peminjaman = Pinjam::latest()->get();
+        $akun = User::all();
+        return view('laporan.peminjaman', [
+            "title" => "riwayat",
+            "jenisbarang" => $jenisbarang,
+            "jenisaset" => $datajenisaset,
+            "dataasalperolehan" => $dataasalperolehan,
+            "datasatuan" => $datasatuan,
+            "inputbarang" => $inputbarang,
+            "peminjaman" => $peminjaman,
+            "akun" => $akun
+        ]);
+    }
+
+
+    public function sortirpeminjaman(Request $request)
+    {
+        $dataasalperolehan = DataAsalPerolehan::all();
+        $datajenisaset = DataJenisAset::all();
+        $jenisbarang = JenisBarang::all();
+        $datasatuan = Satuan::all();
+        $inputbarang = Barang::all();
+        // $barangkeluar = Barangkeluar::all();
+        $startDate = ($request->tglawal);
+        $endDate = ($request->tglakhir);
+
+        $data = Pinjam::all()
+            ->whereBetween('tgl_pengajuan', [$startDate, $endDate]);
+        return view('laporan.peminjaman', [
+            "title" => "barangmasuk",
+            "jenisbarang" => $jenisbarang,
+            "jenisaset" => $datajenisaset,
+            "dataasalperolehan" => $dataasalperolehan,
+            "datasatuan" => $datasatuan,
+            "inputbarang" => $inputbarang,
+            "data" => $data,
+            "startDate" =>   $startDate,
+            "endDate" =>   $endDate,
+
+        ]);
+    }
+
+    public function cetakLaporanPeminjaman(
+        $start,
+        $end
+    ) {
+
+        $startDate = $start;
+        $endDate = $end;
+        $data = Pinjam::all()
+            ->whereBetween('tgl_pengajuan', [$startDate, $endDate]);
+
+        $pdf = PDF::loadview('laporan.cetakpeminjaman', ['data' => $data])->setOptions(['defaultFont' => 'sans-serif'])->setPaper('a4', 'landscape');
+
+        return $pdf->download('Laporan Data Peminjaman.pdf');
+    }
 }

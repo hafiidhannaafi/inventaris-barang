@@ -250,7 +250,7 @@
              <li class="nav-item ">
                  <a class="nav-link collapsed" href="{{ url('/kepalaunit/riwayat') }}">
                      <i class="bi bi-menu-button-wide"></i>
-                     <span>Data Peminjaman</span>
+                     <span>Riwayat Peminjaman</span>
                  </a>
              </li>
 

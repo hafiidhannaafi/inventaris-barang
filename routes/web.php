@@ -58,8 +58,13 @@ Route::get('/profil', function () {
 
 
 //ROUTE SETELAH LOGIN MASUK KE MASING2 DASHBOARD ROLENYA
-Route::middleware(['auth', 'check.role:1,2,3'])->get('/dashboard', [HomeController::class, "index"])->name('dashboard');
+Route::middleware(['auth', 'check.role:1,2,3'])->get('/dashboard', [HomeController::class, "maindashboard"])->name('dashboard');
+// Route::middleware(['auth', 'check.role:1,2,3'])->get('/dashboard', [HomeController::class, "index"])->name('dashboard');
 
+// Route::get('/dashboard', [HomeController::class, "maindashboard"]); 
+Route::get('/filterthn/{tahun}', [HomeController::class, "rekap_tahun"]); //menampilkan filter tahun
+
+// Route::middleware(['auth', 'check.role:1,2,3'])->get('/dashboard', [HomeController::class, "dashboardall"])->name('dashboardall');
 Auth::routes();
 
 
@@ -401,7 +406,7 @@ Route::middleware(['auth', 'check.role:1,2'])->group(
         Route::get('/laporan/asettidakbergerak', [BarangController::class, 'laporanasettidakbergerak']);
         Route::get('/laporan/perlengkapan', [BarangController::class, 'laporanasetperlengkapan']);
         Route::get('/laporan/peralatan', [BarangController::class, 'laporanasetperalatan']);
-        Route::get('/laporan/peminjaman', [PeminjamanController::class, 'laporanpeminjaman']);
+        Route::get('/laporan/peminjaman', [PinjamController::class, 'laporanpeminjaman']);
         Route::post('laporan/barangkeluar', 'App\Http\Controllers\BarangKeluarController@sortir')->name('barangkeluar');
         Route::get('/laporan/menu', function () {
             return view('laporan.menu');
@@ -433,8 +438,8 @@ Route::middleware(['auth', 'check.role:1,2'])->group(
         Route::get('/laporanbarangmasuk/{start}/{end}', 'App\Http\Controllers\BarangMasukController@cetakLaporanBarangMasuk');
 
         //LAPORAN PEMINJAMAN
-        Route::post('/filterpeminjaman', 'App\Http\Controllers\PeminjamanController@sortirpeminjaman');
-        Route::get('/laporanpeminjaman/{start}/{end}', 'App\Http\Controllers\PeminjamanController@cetakLaporanPeminjaman');
+        Route::post('/filterpeminjaman', 'App\Http\Controllers\PinjamController@sortirpeminjaman');
+        Route::get('/laporanpeminjaman/{start}/{end}', 'App\Http\Controllers\PinjamController@cetakLaporanPeminjaman');
 
 
         //--selesai role admin & kepala unit--//

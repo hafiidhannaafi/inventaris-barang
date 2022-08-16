@@ -32,6 +32,47 @@
 
                 </div>
             </div>
+
+            @php
+                foreach ($data as $d) {
+                    foreach (App\Models\Barang::where('id', $d->barangs_id)->get() as $barang) {
+                        echo $barang->kode . '</br>' . $d->jumlah . '</br>';
+                    }
+                }
+            @endphp
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Doughnut Chart</h5>
+
+                        <!-- Doughnut Chart -->
+                        <canvas id="doughnutChart" style="max-height: 400px;"></canvas>
+                        <script>
+                            document.addEventListener("DOMContentLoaded", () => {
+                                new Chart(document.querySelector('#doughnutChart'), {
+                                    type: 'doughnut',
+                                    data: {
+                                        labels: [],
+                                        datasets: [{
+                                            label: 'My First Dataset',
+                                            data: [{!! json_encode($d->jumlah) !!}],
+                                            backgroundColor: [
+                                                'rgb(255, 99, 132)',
+                                                'rgb(54, 162, 235)',
+                                                'rgb(255, 205, 86)'
+                                            ],
+                                            hoverOffset: 4
+                                        }]
+                                    }
+                                });
+                            });
+                        </script>
+                        <!-- End Doughnut CHart -->
+
+                    </div>
+                </div>
+            </div>
+
             {{-- <div class="row"> --}}
             <div class="col-lg-12">
                 <div class="card">
@@ -50,7 +91,8 @@
                                 <li><a class="dropdown-item" href="#">2022</a></li>
                             </ul>
                         </div>
-                        <!-- Column Chart -->
+
+
                         <div id="columnChart"></div>
 
                         <script>
@@ -148,7 +190,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Peminjaman Barang</h5>
-                        <div class="filter">
+                        {{-- <div class="filter">
                             <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                                 <li class="dropdown-header text-start">
@@ -159,7 +201,7 @@
                                 <li><a class="dropdown-item" href="#">2021</a></li>
                                 <li><a class="dropdown-item" href="#">2022</a></li>
                             </ul>
-                        </div>
+                        </div> --}}
 
                         <!-- Column Chart -->
                         <div id="columnChart2"></div>
